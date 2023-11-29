@@ -41,9 +41,13 @@ export default function CreatePost() {
               />
               <MdOutlineImage />
             </button>
-            <button className="uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-medium text-white mr-4 px-5 py-2 text-sm rounded-full">
-              Post
-            </button>
+            {pathname === "/" ? (
+              <></>
+            ) : (
+              <button className="uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-medium text-white mr-4 px-5 py-2 text-sm rounded-full">
+                Post
+              </button>
+            )}
           </div>
         </form>
       </IconContext.Provider>
