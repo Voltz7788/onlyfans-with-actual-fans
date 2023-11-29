@@ -16,7 +16,6 @@ export default function CreatePost() {
     <section className="py-3 pl-4 pr-1 border-b">
       <IconContext.Provider value={{ className: "text-gray-400 text-2xl" }}>
         <form action="">
-          <label htmlFor="postText" aria-label="Compose new post" />
           <textarea
             ref={textAreaRef}
             id="postText"
@@ -27,12 +26,14 @@ export default function CreatePost() {
             autoFocus={pathname === "/create-post" ? true : false}
             className=" pr-4 focus:placeholder-gray-300 outline-none caret-onlyfans-blue text-onlyfans-black w-full 
             resize-none max-h-52 scrollbar scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 scrollbar-w-1"
+            aria-label="Compose new post"
           />
           <div className="flex items-center justify-between mt-5">
             <button
               className=""
               data-tooltip-id="imageUploadTooltip"
               data-tooltip-content={"Upload image"}
+              aria-label="Upload image"
             >
               <Tooltip
                 id="imageUploadTooltip"

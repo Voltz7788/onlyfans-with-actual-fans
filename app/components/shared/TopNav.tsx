@@ -12,7 +12,7 @@ export default function TopNav({ pageTitle }: TopNavProps) {
   const router = useRouter();
   return (
     <nav className="flex items-center gap-4 w-full px-6 py-4 border-b font-medium">
-      <button onClick={() => router.back()}>
+      <button onClick={() => router.back()} aria-label="Go to previous page">
         <IoArrowBack className="text-2xl" />
       </button>
 

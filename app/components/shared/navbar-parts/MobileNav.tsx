@@ -52,6 +52,7 @@ export default function MobileNav({
                   ? "text-onlyfans-black"
                   : "text-onlyfans-light-gray"
               } flex items-center gap-5 font-medium max-w-[250px] xl:w-full rounded-full p-2 xl:py-2 xl:px-3 mt-3 transition-colors duration-100`}
+              aria-label="New Post"
             >
               <FiPlusSquare className="xl:absolute left-3" />
             </button>
