@@ -21,11 +21,11 @@ export default function DesktopNav({
   pathname,
 }: NavProps) {
   return (
-    <nav className="hidden sm:flex flex-col items-end text-lg max-w-xs px-3 py-10">
+    <nav className="hidden sm:flex flex-col items-end text-lg lg:max-w-[300px] lg:w-full xl:w-1/3 xl:max-w-none py-10 px-2.5 xl:px-10">
       <IconContext.Provider value={{ className: "text-3xl -mt-0.5" }}>
         <Link
           href={"/profile"}
-          className="max-w-[250px] xl:w-full rounded-full focus:outline-onlyfans-blue text-base flex items-center gap-4"
+          className="max-w-[250px] lg:w-full rounded-full focus:outline-onlyfans-blue text-base flex items-center gap-4"
           aria-label="My Profile"
         >
           <Image
@@ -43,7 +43,7 @@ export default function DesktopNav({
           } ${linkStyles}`}
           aria-label="Home"
         >
-          <AiOutlineHome /> <p className="hidden xl:block">Home</p>
+          <AiOutlineHome /> <p className="hidden lg:block">Home</p>
         </Link>
         <Link
           href={"/messages"}
@@ -55,7 +55,7 @@ export default function DesktopNav({
           aria-label="Messages"
         >
           <BiMessageDetail />
-          <p className="hidden xl:block">Messages</p>
+          <p className="hidden lg:block">Messages</p>
         </Link>
         <Link
           href={"/collections"}
@@ -67,7 +67,7 @@ export default function DesktopNav({
           aria-label="Collections"
         >
           <BsBookmarkStar />
-          <p className="hidden xl:block">Collections</p>
+          <p className="hidden lg:block">Collections</p>
         </Link>
         <Link
           href={"/subscriptions"}
@@ -79,7 +79,7 @@ export default function DesktopNav({
           aria-label="Subscriptions"
         >
           <PiFan />
-          <p className="hidden xl:block">Subscriptions</p>
+          <p className="hidden lg:block">Subscriptions</p>
         </Link>
         <Link
           href={"/profile"}
@@ -91,26 +91,26 @@ export default function DesktopNav({
           aria-label="My Profile"
         >
           <CgProfile />
-          <p className="hidden xl:block">My Profile</p>
+          <p className="hidden lg:block">My Profile</p>
         </Link>
         {pathname === "/create-post" ? (
           <button
             disabled
-            className={`relative flex font-medium justify-center items-center gap-5 text-sm max-w-[250px] xl:w-full rounded-full p-2 xl:py-3.5 xl:px-3 mt-4 
+            className={`relative flex font-medium justify-center items-center gap-5 text-sm max-w-[250px] lg:w-full rounded-full p-2 lg:py-3.5 lg:px-3 mt-4 
     text-white transition-colors duration-100 bg-gray-500 opacity-20 `}
           >
-            <FiPlus className="xl:absolute left-3" />
-            <p className="hidden xl:block">NEW POST</p>
+            <FiPlus className="lg:absolute left-3" />
+            <p className="hidden lg:block">NEW POST</p>
           </button>
         ) : (
           <Link
             href={`${pathname === "/create-post" ? "" : "/create-post"}`}
-            className={`relative flex font-medium justify-center items-center gap-5 text-sm max-w-[250px] xl:w-full rounded-full p-2 xl:py-3.5 xl:px-3 mt-4 
+            className={`relative flex font-medium justify-center items-center gap-5 text-sm max-w-[250px] lg:w-full rounded-full p-2 lg:py-3.5 lg:px-3 mt-4 
     text-white transition-colors duration-100 bg-onlyfans-light-blue hover:bg-onlyfans-blue focus:bg-onlyfans-blue focus:outline-1 `}
             aria-label="New Post"
           >
-            <FiPlus className="xl:absolute left-3" />
-            <p className="hidden xl:block">NEW POST</p>
+            <FiPlus className="lg:absolute left-3" />
+            <p className="hidden lg:block">NEW POST</p>
           </Link>
         )}
       </IconContext.Provider>

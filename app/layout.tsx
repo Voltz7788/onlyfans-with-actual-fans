@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
+import Navbar from "./components/shared/Navbar";
+import "react-tooltip/dist/react-tooltip.css";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,7 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <div className="flex">
+          <Navbar />
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

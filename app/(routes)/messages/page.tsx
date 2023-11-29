@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "../../components/shared/Navbar";
+import TopNav from "@/app/components/shared/TopNav";
 
 export default function MessagesPage() {
   return (
-    <div>
-      <Navbar />
-    </div>
+    <main className="border-x w-full xl:w-1/3">
+      <TopNav pageTitle="Messages" />
+    </main>
   );
 }
