@@ -19,9 +19,9 @@ export default function MobileNav({
   pathname,
 }: NavProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 sm:hidden text-lg w-full px-6 pt-1 pb-4 border-t ">
+    <nav className="fixed bottom-0 left-0 right-0 z-30 sm:hidden text-lg w-full px-6 pt-1 pb-4 border-t">
       <IconContext.Provider value={{ className: "text-3xl -mt-0.5" }}>
-        <div className="max-w-md flex justify-between items-end mx-auto">
+        <div className="max-w-md flex justify-between items-end mx-auto gap-1">
           <Link
             href={"/"}
             className={`${
