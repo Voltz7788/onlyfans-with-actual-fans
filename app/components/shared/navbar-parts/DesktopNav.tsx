@@ -52,6 +52,7 @@ export default function DesktopNav({
               ? "text-onlyfans-black"
               : "text-onlyfans-light-gray"
           } ${linkStyles}`}
+          aria-label="Messages"
         >
           <BiMessageDetail />
           <p className="hidden xl:block">Messages</p>

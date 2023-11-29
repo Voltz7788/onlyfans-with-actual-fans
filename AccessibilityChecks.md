@@ -10,3 +10,8 @@ Blindness:
 
 - Aria label for interactive elements
 - Aria hidden to hide decorative elements from accessibility API (don't hide focusable elements)
+- Screen reader test
+
+General:
+
+- Lighthouse in Chrome Dev Tools

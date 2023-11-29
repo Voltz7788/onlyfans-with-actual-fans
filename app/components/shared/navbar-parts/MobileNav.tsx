@@ -75,6 +75,7 @@ export default function MobileNav({
                 ? "text-onlyfans-black"
                 : "text-onlyfans-light-gray"
             } ${linkStyles}`}
+            aria-label="Messages"
           >
             <BiMessageDetail />
           </Link>
