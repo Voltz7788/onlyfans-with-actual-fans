@@ -86,7 +86,7 @@ export default function MobileNav({
             <Image
               src={profilePic}
               alt="Your profile picture"
-              className="w-10 rounded-full"
+              className="w-9 rounded-full"
             />
           </Link>
         </div>
