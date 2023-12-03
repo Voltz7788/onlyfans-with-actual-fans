@@ -21,7 +21,7 @@ export default function DesktopNav({
   pathname,
 }: NavProps) {
   return (
-    <nav className="sm:max-w-[70px] lg:max-w-[300px] sm:w-full xl:w-1/3 xl:max-w-none relative">
+    <nav className="sm:max-w-[70px] lg:max-w-[300px] sm:w-full xl:w-1/3 xl:max-w-none relative bg-white">
       <div className="hidden lg:max-w-[300px] lg:w-full xl:max-w-none xl:w-1/3 sm:fixed sm:flex flex-col items-end text-lg py-10 px-2.5 xl:px-10">
         <IconContext.Provider value={{ className: "text-3xl -mt-0.5" }}>
           <Link
