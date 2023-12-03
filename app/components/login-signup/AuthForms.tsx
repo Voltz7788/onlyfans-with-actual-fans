@@ -71,18 +71,16 @@ export const LoginForm = () => {
         />
       </div>
 
-      <button
-        className={`py-2.5 mt-8 rounded-full uppercase text-white text-sm font-semibold ${
+      <Link
+        href={"/"}
+        className={`py-2.5 mt-8 rounded-full uppercase text-white text-center text-sm font-semibold ${
           loginData.email === "" || loginData.password === ""
-            ? "bg-gray-300"
+            ? "bg-gray-300 pointer-events-none select-none"
             : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
         } `}
-        disabled={
-          loginData.email === "" || loginData.password === "" ? true : false
-        }
       >
-        <Link href={"/"}>Log In</Link>
-      </button>
+        Log In
+      </Link>
     </form>
   );
 };
@@ -219,26 +217,19 @@ export const SignupForm = () => {
         />
       </div>
 
-      <button
-        className={`py-2.5 mt-8 rounded-full uppercase text-white text-sm font-semibold ${
+      <Link
+        href={"/"}
+        className={`py-2.5 mt-8 rounded-full uppercase text-white text-center text-sm font-semibold ${
           signupData.name === "" ||
           signupData.email === "" ||
           signupData.password === "" ||
           signupData.confirmPass === ""
-            ? "bg-gray-300"
+            ? "bg-gray-300 pointer-events-none select-none"
             : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
         } `}
-        disabled={
-          signupData.name === "" ||
-          signupData.email === "" ||
-          signupData.password === "" ||
-          signupData.confirmPass === ""
-            ? true
-            : false
-        }
       >
-        <Link href={"/"}>Sign Up</Link>
-      </button>
+        Sign Up
+      </Link>
     </form>
   );
 };
