@@ -6,7 +6,7 @@ import SpinningFanIcon from "../shared/SpinningFanIcon";
 export default function LeftHeader() {
   return (
     <div className="hidden md:block relative bg-onlyfans-light-blue w-1/2">
-      <div className="ml-auto md:mx-auto xl:mr-44 w-80 border  pt-20 gap-2">
+      <div className="ml-auto md:mx-auto xl:mr-44 w-80 pt-20 gap-2">
         <div className="flex">
           <PiFanFill className="text-5xl text-white" />
           <div className="">
