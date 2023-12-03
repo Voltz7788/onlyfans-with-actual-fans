@@ -110,7 +110,7 @@ export const SignupForm = () => {
           className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
             focus === "name"
               ? "text-sky-400 -top-2 text-xs ml-4"
-              : signupData.email !== ""
+              : signupData.name !== ""
               ? "text-gray-400 -top-2 text-xs ml-4"
               : "text-gray-400 top-1/4 text-base ml-4"
           } cursor-text select-none`}
@@ -197,7 +197,7 @@ export const SignupForm = () => {
           className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
             focus === "confirmPass"
               ? "text-sky-400 -top-2 text-xs ml-4"
-              : signupData.password !== ""
+              : signupData.confirmPass !== ""
               ? "text-gray-400 -top-2 text-xs ml-4"
               : "text-gray-400 top-1/4 text-base ml-4"
           } cursor-text select-none`}
@@ -221,12 +221,20 @@ export const SignupForm = () => {
 
       <button
         className={`py-2.5 mt-8 rounded-full uppercase text-white text-sm font-semibold ${
-          signupData.email === "" || signupData.password === ""
+          signupData.name === "" ||
+          signupData.email === "" ||
+          signupData.password === "" ||
+          signupData.confirmPass === ""
             ? "bg-gray-300"
             : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
         } `}
         disabled={
-          signupData.email === "" || signupData.password === "" ? true : false
+          signupData.name === "" ||
+          signupData.email === "" ||
+          signupData.password === "" ||
+          signupData.confirmPass === ""
+            ? true
+            : false
         }
       >
         <Link href={"/"}>Sign Up</Link>
