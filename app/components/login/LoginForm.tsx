@@ -13,8 +13,8 @@ export default function LoginForm() {
   const [focus, setFocus] = useState<"email" | "password" | "">();
 
   return (
-    <div className="px-1 md:w-1/2 flex items-center md:-mt-10 justify-center lg:justify-start mx-auto md:mx-2 lg:mx-0 lg:pl-32 xl:pl-44">
-      <div className="max-w-[280px] sm:max-w-[340px]">
+    <div className=" w-full border md:w-1/2 sm:flex items-center  md:-mt-10 justify-center lg:justify-start md:mx-2 lg:mx-0 lg:pl-32 xl:pl-44">
+      <div className="max-w-[340px] mx-auto md:mx-0 px-4 md:px-0">
         <HeaderText />
         <form action="" className="flex flex-col">
           <p className="text-sm font-semibold">Log in</p>
@@ -107,7 +107,7 @@ const HeaderText = () => {
           </p>
         </div>
       </div>
-      <p className="flex justify-end text-onlyfans-black w-80 text-xl md:text-3xl mt-4">
+      <p className="flex justify-end text-onlyfans-black md:w-80 text-xl md:text-3xl mt-4">
         Sign up to support your favourite creators
       </p>
     </div>
