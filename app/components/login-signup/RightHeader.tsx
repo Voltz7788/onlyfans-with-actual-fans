@@ -8,10 +8,6 @@ export default function RightHeader({ children }: { children: ReactNode }) {
   return (
     <div className=" w-full border md:w-1/2 sm:flex items-center  md:-mt-10 justify-center lg:justify-start md:mx-2 lg:mx-0 lg:pl-32 xl:pl-44">
       <div className="max-w-[340px] mx-auto md:mx-0 px-4 md:px-0">
-        {/* <HeaderText />
-        <LoginForm />
-
-        <OAuthButtons /> */}
         {children}
       </div>
     </div>
@@ -61,9 +57,38 @@ const LoginLink = () => {
   );
 };
 
+const SignupDisclaimer = () => {
+  return (
+    <p className="text-center text-xs text-onlyfans-light-gray mt-3">
+      By signing up you agree to our{" "}
+      <Link
+        href={
+          "https://www.youtube.com/watch?v=Tt7bzxurJ1I&ab_channel=WalfArchives"
+        }
+        target="_blank"
+        className="text-sky-400"
+      >
+        Terms of Service
+      </Link>{" "}
+      and{" "}
+      <Link
+        href={
+          "https://www.youtube.com/watch?v=CoZFa7uQHbk&ab_channel=NorthernHurricane7"
+        }
+        target="_blank"
+        className="text-sky-400"
+      >
+        Privacy Policy
+      </Link>
+      , and confirm that you are at least 18 years old.
+    </p>
+  );
+};
+
 RightHeader.HeaderText = HeaderText;
 RightHeader.SignupForm = SignupForm;
 RightHeader.LoginForm = LoginForm;
 RightHeader.SignupLink = SignupLink;
 RightHeader.LoginLink = LoginLink;
 RightHeader.OAuthButtons = OAuthButtons;
+RightHeader.SignupDisclaimer = SignupDisclaimer;
