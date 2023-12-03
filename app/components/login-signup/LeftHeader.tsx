@@ -10,7 +10,7 @@ export default function LeftHeader() {
         <div className="flex">
           <PiFanFill className="text-5xl text-white" />
           <div className="">
-            <h1 className="text-4xl font-medium text-white">
+            <h1 className="text-4xl font-semibold text-white">
               <span className="text-gray-200">Only</span>Fans
             </h1>
             <p className="text-xl text-white"> (but with actual fans)</p>
