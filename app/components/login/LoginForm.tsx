@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import OAuthButtons from "./OAuthButtons";
 import Link from "next/link";
+import { PiFanFill } from "react-icons/pi";
 
 export default function LoginForm() {
   const [data, setData] = useState({
@@ -12,8 +13,9 @@ export default function LoginForm() {
   const [focus, setFocus] = useState<"email" | "password" | "">();
 
   return (
-    <div className="w-1/2 h-full flex items-center pl-44">
-      <div className="max-w-[340px]">
+    <div className="px-1 md:w-1/2 flex items-center md:-mt-10 justify-center lg:justify-start mx-auto md:mx-2 lg:mx-0 lg:pl-32 xl:pl-44">
+      <div className="max-w-[280px] sm:max-w-[340px]">
+        <HeaderText />
         <form action="" className="flex flex-col">
           <p className="text-sm font-semibold">Log in</p>
           <div className="relative mt-3 h-12 transition-all">
@@ -89,3 +91,25 @@ export default function LoginForm() {
     </div>
   );
 }
+
+const HeaderText = () => {
+  return (
+    <div className="md:hidden pt-16 pb-10 gap-2">
+      <div className="flex">
+        <PiFanFill className="text-5xl text-onlyfans-blue" />
+        <div className="">
+          <h1 className="text-4xl font-medium text-onlyfans-blue">
+            <span className="text-onlyfans-light-blue">Only</span>Fans
+          </h1>
+          <p className="text-xl text-onlyfans-light-gray">
+            {" "}
+            (but with actual fans)
+          </p>
+        </div>
+      </div>
+      <p className="flex justify-end text-onlyfans-black w-80 text-xl md:text-3xl mt-4">
+        Sign up to support your favourite creators
+      </p>
+    </div>
+  );
+};

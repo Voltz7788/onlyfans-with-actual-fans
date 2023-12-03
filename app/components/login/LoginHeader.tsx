@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 
 export default function LoginHeader() {
   return (
-    <section className="flex w-full overflow-hidden h-[700px] border-b shadow-sm">
+    <section className="flex w-full overflow-hidden  md:h-[700px] border-b shadow-sm">
       <LeftHeader />
       <LoginForm />
     </section>

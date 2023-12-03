@@ -13,7 +13,7 @@ export default function SpinningFanIcon() {
       <FanIcon
         className={`${
           clicked ? "run" : "pause"
-        } animate-spin w-full cursor-pointer -z-10`}
+        } animate-spin w-full cursor-pointer`}
       />
     </button>
   );

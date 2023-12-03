@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function OAuthButtons() {
   return (
-    <div>
+    <div className="mb-10">
       <button className="relative py-2.5 mt-8 rounded-full bg-[#1DA1F2] uppercase w-full text-white text-sm font-semibold hover:opacity-80 transition-all duration-150">
         <Link href={"/"}>
           <TwitterIcon className="absolute w-7 top-1/2 -translate-y-1/2 ml-2" />
