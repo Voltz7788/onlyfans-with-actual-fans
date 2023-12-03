@@ -206,8 +206,8 @@ export const SignupForm = () => {
         </label>
         <input
           type="password"
-          name="confirmPassword"
-          id="confirmPassword"
+          name="confirmPass"
+          id="confirmPass"
           required
           className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
           value={signupData.confirmPass}
