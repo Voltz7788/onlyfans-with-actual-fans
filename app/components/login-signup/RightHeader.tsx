@@ -6,7 +6,7 @@ import { PiFanFill } from "react-icons/pi";
 
 export default function RightHeader({ children }: { children: ReactNode }) {
   return (
-    <div className="w-full border md:w-1/2 sm:flex items-center  md:-mt-10 justify-center lg:justify-start md:mx-2 lg:mx-0 lg:pl-32 xl:pl-44">
+    <div className="w-full border md:w-1/2 sm:flex items-center  md:-mt-10 justify-center lg:justify-start md:px-2 lg:mx-0 lg:pl-32 xl:pl-44">
       <div className="max-w-[340px] w-full mx-auto md:mx-0 px-4 md:px-0">
         {children}
       </div>
