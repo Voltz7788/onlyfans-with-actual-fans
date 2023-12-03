@@ -39,7 +39,7 @@ const HeaderText = () => {
 const SignupLink = () => {
   return (
     <Link href={"/signup"}>
-      <p className="text-onlyfans-light-blue text-sm text-center mt-8">
+      <p className="text-onlyfans-light-blue hover:text-onlyfans-blue text-sm text-center mt-8">
         Sign up for OnlyFans
       </p>
     </Link>
@@ -48,12 +48,14 @@ const SignupLink = () => {
 
 const LoginLink = () => {
   return (
-    <Link href={"/login"}>
-      <p className="text-onlyfans-black text-sm text-center mt-8">
-        Already have an account?{" "}
-        <span className="text-onlyfans-light-blue">Log in</span>
-      </p>
-    </Link>
+    <p className="text-onlyfans-black text-sm text-center mt-8">
+      Already have an account?{" "}
+      <Link href={"/login"}>
+        <span className="text-onlyfans-light-blue hover:text-onlyfans-blue">
+          Log in
+        </span>
+      </Link>
+    </p>
   );
 };
 
@@ -66,7 +68,7 @@ const SignupDisclaimer = () => {
           "https://www.youtube.com/watch?v=Tt7bzxurJ1I&ab_channel=WalfArchives"
         }
         target="_blank"
-        className="text-sky-400"
+        className="text-sky-400 hover:text-onlyfans-blue"
       >
         Terms of Service
       </Link>{" "}
@@ -76,7 +78,7 @@ const SignupDisclaimer = () => {
           "https://www.youtube.com/watch?v=CoZFa7uQHbk&ab_channel=NorthernHurricane7"
         }
         target="_blank"
-        className="text-sky-400"
+        className="text-sky-400 hover:text-onlyfans-blue"
       >
         Privacy Policy
       </Link>
