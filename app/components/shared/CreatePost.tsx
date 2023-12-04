@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Tooltip } from "react-tooltip";
-import { useAutoSizeTextArea } from "@/app/(utilities)/(hooks)/useAutoSizeTextArea";
+import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea";
 import { usePathname } from "next/navigation";
 
 export default function CreatePost() {
