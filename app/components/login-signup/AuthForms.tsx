@@ -1,16 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import axios from "axios";
+import { signIn } from "next-auth/react";
 
 export const LoginForm = () => {
+  const router = useRouter();
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
 
   const [focus, setFocus] = useState<"email" | "password" | "">("");
+
+  const loginUser = async (e: FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await signIn("credentials", {
+        email: loginData.email,
+        password: loginData.password,
+        redirect: false,
+      });
+
+      if (!response?.ok) throw new Error(response?.error!);
+      router.push("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <form action="" className="flex flex-col">
+    <form onSubmit={loginUser} className="flex flex-col">
       <p className="text-sm font-semibold">Log in</p>
 
       {/* Email */}
@@ -71,8 +94,7 @@ export const LoginForm = () => {
         />
       </div>
 
-      <Link
-        href={"/"}
+      <button
         className={`py-2.5 mt-8 rounded-full uppercase text-white text-center text-sm font-semibold ${
           loginData.email === "" || loginData.password === ""
             ? "bg-gray-300 pointer-events-none select-none"
@@ -80,12 +102,14 @@ export const LoginForm = () => {
         } `}
       >
         Log In
-      </Link>
+      </button>
     </form>
   );
 };
 
 export const SignupForm = () => {
+  const router = useRouter();
+
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
@@ -97,8 +121,19 @@ export const SignupForm = () => {
     "name" | "email" | "password" | "confirmPass" | ""
   >("");
 
+  const signupUser = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/signup", signupData);
+      console.log(response.status, response.statusText);
+      router.push("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <form action="" className="flex flex-col">
+    <form onSubmit={signupUser} className="flex flex-col">
       <p className="text-sm font-semibold">Create your account</p>
 
       {/* Name */}
@@ -217,8 +252,8 @@ export const SignupForm = () => {
         />
       </div>
 
-      <Link
-        href={"/"}
+      <button
+        type="submit"
         className={`py-2.5 mt-8 rounded-full uppercase text-white text-center text-sm font-semibold ${
           signupData.name === "" ||
           signupData.email === "" ||
@@ -229,7 +264,7 @@ export const SignupForm = () => {
         } `}
       >
         Sign Up
-      </Link>
+      </button>
     </form>
   );
 };
