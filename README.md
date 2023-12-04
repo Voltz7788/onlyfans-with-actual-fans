@@ -19,3 +19,5 @@ Users should be able to:
 - chat with creators\*
 
 \* For the chat function to work, I would need users actually using my site. Since I doubt this idea will attract a large enough user base for chat to actually happen, I'll create some demo accounts that are integerated with OpenAI's Chat-GPT model to simulate a conversation with a user.
+
+![](https://github.com/Voltz7788/onlyfans-with-actual-fans/blob/ym/auth-form-feedback/public/Screencast%20from%2004-12-23%2003_29_00.gif)
