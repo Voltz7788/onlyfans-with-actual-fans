@@ -1,5 +1,5 @@
 import React from "react";
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
 import { AiOutlineHome } from "react-icons/ai";
@@ -8,6 +8,7 @@ import { BsBookmarkStar } from "react-icons/bs";
 import { PiFan } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { FiPlus } from "react-icons/fi";
+import MoreOptionsModal from "./MoreOptionsModal";
 
 type NavProps = {
   linkStyles: string;
@@ -21,20 +22,11 @@ export default function DesktopNav({
   pathname,
 }: NavProps) {
   return (
-    <nav className="sm:max-w-[70px] lg:max-w-[300px] sm:w-full xl:w-1/3 xl:max-w-none relative bg-white">
+    <nav className="sm:max-w-[70px] lg:max-w-[300px] sm:w-full xl:w-1/3 xl:max-w-none relative bg-white z-10">
       <div className="hidden lg:max-w-[300px] lg:w-full xl:max-w-none xl:w-1/3 sm:fixed sm:flex flex-col items-end text-lg py-10 px-2.5 xl:px-10">
         <IconContext.Provider value={{ className: "text-3xl -mt-0.5" }}>
-          <Link
-            href={"/profile"}
-            className="max-w-[250px] lg:w-full rounded-full focus:outline-onlyfans-blue text-base flex items-center gap-4"
-            aria-label="My Profile"
-          >
-            <Image
-              src={profilePic}
-              alt="Your profile picture"
-              className="w-11 rounded-full"
-            />
-          </Link>
+          <MoreOptionsModal profilePic={profilePic} />
+
           <Link
             href={"/"}
             className={`${

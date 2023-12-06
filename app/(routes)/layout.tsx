@@ -22,13 +22,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        <div className="flex">
-          <Navbar />
-          {children}
-        </div>
-      </body>
-    </html>
+    <div className="flex">
+      <Navbar />
+      {children}
+    </div>
   );
 }

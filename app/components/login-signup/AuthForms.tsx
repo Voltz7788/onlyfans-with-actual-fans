@@ -21,13 +21,11 @@ import {
 import { IoWarningOutline } from "react-icons/io5";
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import { tailChase } from "ldrs";
-import type {} from "ldrs";
+import { PulseLoader } from "react-spinners";
 
 export const LoginForm = () => {
   const router = useRouter();
 
-  tailChase.register("submit-loader");
   const [isLoading, setIsLoading] = useState(false);
 
   const [loginData, setLoginData] = useState({
@@ -71,12 +69,11 @@ export const LoginForm = () => {
 
       if (response?.error) {
         setServerErrors({ ...serverErrors, general: response.error });
+        setIsLoading(false);
       }
     } catch (err) {
       console.error(err);
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -108,6 +105,7 @@ export const LoginForm = () => {
             id="email"
             required
             aria-required="true"
+            autoComplete="email"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
                 focused: focused.email,
@@ -251,8 +249,8 @@ export const LoginForm = () => {
         } `}
       >
         <p>{isLoading ? "Loading" : "Log In"}</p>
-        {/* @ts-ignore */}
-        {isLoading && <submit-loader color="white" size="16"></submit-loader>}
+
+        <PulseLoader color="#ffffff" size={6} loading={isLoading} />
       </button>
     </form>
   );
@@ -261,7 +259,6 @@ export const LoginForm = () => {
 export const SignupForm = () => {
   const router = useRouter();
 
-  tailChase.register("submit-loader");
   const [isLoading, setIsLoading] = useState(false);
 
   const [signupData, setSignupData] = useState({
@@ -311,9 +308,8 @@ export const SignupForm = () => {
       }
     } catch (err: any) {
       setServerErrors({ ...serverErrors, general: err.response.statusText });
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -348,6 +344,7 @@ export const SignupForm = () => {
             aria-label="name"
             required
             aria-required="true"
+            autoComplete="name"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
                 focused: focused.name,
@@ -415,6 +412,7 @@ export const SignupForm = () => {
             id="email"
             required
             aria-required="true"
+            autoComplete="email"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
                 focused: focused.email,
@@ -482,6 +480,7 @@ export const SignupForm = () => {
             id="password"
             required
             aria-required="true"
+            autoComplete="password"
             className={`border h-12 pl-3 focus:pr-14 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
               {
                 focused: focused.password,
@@ -564,8 +563,7 @@ export const SignupForm = () => {
         } `}
       >
         <p>{isLoading ? "Loading" : "Sign Up"}</p>
-        {/* @ts-ignore */}
-        {isLoading && <submit-loader color="white" size="16"></submit-loader>}
+        <PulseLoader color="#ffffff" size={6} loading={isLoading} />
       </button>
     </form>
   );
