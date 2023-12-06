@@ -299,7 +299,15 @@ export const SignupForm = () => {
       const response = await axios.post("/api/signup", signupData);
 
       if (response.status === 200) {
-        router.push("/login");
+        const loginResponse = await signIn("credentials", {
+          email: signupData.email,
+          password: signupData.password,
+          redirect: false,
+        });
+
+        if (loginResponse?.status === 200) {
+          router.push("/");
+        }
       }
     } catch (err: any) {
       setServerErrors({ ...serverErrors, general: err.response.statusText });
