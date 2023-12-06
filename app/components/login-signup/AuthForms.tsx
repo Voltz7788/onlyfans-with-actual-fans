@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { signIn } from "next-auth/react";
 import {
   isNameInvalid,
@@ -42,10 +42,7 @@ export const LoginForm = () => {
 
   const [passVisible, setPassVisible] = useState(false);
 
-  const [errors, setErrors] = useState({
-    email: [""],
-    password: [""],
-  });
+  const [serverError, setServerError] = useState("");
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
@@ -57,8 +54,15 @@ export const LoginForm = () => {
         redirect: false,
       });
 
-      if (!response?.ok) throw new Error(response?.error!);
-      router.push("/");
+      if (response?.status === 200) {
+        router.push("/");
+      }
+
+      if (response?.error) {
+        setServerError(response.error);
+        // console.log(response.error);
+      }
+      // if (!response?.ok) throw new Error(response?.error!);
     } catch (err) {
       console.error(err);
     }
@@ -101,6 +105,7 @@ export const LoginForm = () => {
                 ...invalidData,
                 email: isEmailInvalid(e.target.value),
               });
+              setServerError("");
             }}
             onFocus={() => setFocused({ ...focused, email: true })}
             onBlur={() => setFocused({ ...focused, email: false })}
@@ -118,12 +123,7 @@ export const LoginForm = () => {
             />
           </div>
         </div>
-        {/* Server side error feedback */}
-        {errors.email.map((error, index) => (
-          <p key={index} className={`pl-4 text-red-400 text-xs mt-0.5`}>
-            {error}
-          </p>
-        ))}
+
         {/* Client side error feedback */}
         {loginData.email === "" && !focused.email && invalidData.email ? (
           <p className={`pl-4 text-red-400 text-xs mt-0.5`}>
@@ -172,6 +172,7 @@ export const LoginForm = () => {
                 ...invalidData,
                 password: isPasswordLoginValid(e.target.value),
               });
+              setServerError("");
             }}
             onFocus={() => setFocused({ ...focused, password: true })}
             onBlur={() => setFocused({ ...focused, password: false })}
@@ -200,12 +201,7 @@ export const LoginForm = () => {
             />
           </div>
         </div>
-        {/* Server side error feedback */}
-        {errors.password.map((error, index) => (
-          <p key={index} className={`pl-4 text-red-400 text-xs mt-0.5`}>
-            {error}
-          </p>
-        ))}
+
         {/* Client side error feedback */}
         {loginData.password === "" &&
         !focused.password &&
@@ -216,6 +212,9 @@ export const LoginForm = () => {
         ) : (
           <></>
         )}
+
+        {/* Server side error feedback */}
+        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>{serverError}</p>
       </div>
 
       <button
@@ -254,20 +253,18 @@ export const SignupForm = () => {
 
   const [passVisible, setPassVisible] = useState(false);
 
-  const [errors, setErrors] = useState({
-    name: [""],
-    email: [""],
-    password: [""],
-  });
+  const [serverError, setServerError] = useState("");
 
   const signupUser = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/signup", signupData);
-      console.log(response.status, response.statusText);
-      router.push("/login");
-    } catch (err) {
-      console.log(err);
+
+      if (response.status === 200) {
+        router.push("/login");
+      }
+    } catch (err: any) {
+      setServerError(err.response.statusText);
     }
   };
 
@@ -327,13 +324,6 @@ export const SignupForm = () => {
             }`}
           />
         </div>
-
-        {/* Server side error feedback */}
-        {errors.name.map((error, index) => (
-          <p key={index} className={`pl-4 text-red-400 text-xs mt-0.5`}>
-            {error}
-          </p>
-        ))}
 
         {/* Client side error feedback */}
         {signupData.name === "" && !focused.name && invalidData.name ? (
@@ -399,13 +389,6 @@ export const SignupForm = () => {
             }`}
           />
         </div>
-
-        {/* Server side error feedback */}
-        {errors.email.map((error, index) => (
-          <p key={index} className={`pl-4 text-red-400 text-xs mt-0.5`}>
-            {error}
-          </p>
-        ))}
 
         {/* Client side error feedback */}
         {signupData.email === "" && !focused.email && invalidData.email ? (
@@ -484,12 +467,7 @@ export const SignupForm = () => {
             />
           </div>
         </div>
-        {/* Server side error feedback */}
-        {errors.password.map((error, index) => (
-          <p key={index} className={`pl-4 text-red-400 text-xs mt-0.5`}>
-            {error}
-          </p>
-        ))}
+
         {/* Client side error feedback */}
         {signupData.password === "" &&
         !focused.password &&
@@ -506,6 +484,9 @@ export const SignupForm = () => {
         ) : (
           <></>
         )}
+
+        {/* Server side error feedback */}
+        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>{serverError}</p>
       </div>
 
       <button

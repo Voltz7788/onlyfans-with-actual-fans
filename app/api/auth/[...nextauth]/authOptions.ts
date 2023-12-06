@@ -59,6 +59,23 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      const userExists = await prisma.user.findUnique({
+        where: { email: user.email! },
+      });
+
+      const userAccount = await prisma.account.findFirst({
+        where: { userId: userExists?.id, AND: { provider: account?.provider } },
+      });
+
+      if (!userAccount) {
+        throw new Error("custom error to the client");
+      }
+
+      return true;
+    },
+  },
   session: {
     strategy: "jwt",
   },

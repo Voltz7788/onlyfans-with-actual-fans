@@ -8,10 +8,11 @@ type OAuthTypes = "twitter" | "google" | "github";
 export default function OAuthButtons() {
   const handleSignin = async (provider: OAuthTypes) => {
     try {
-      await signIn(provider, {
+      const response = await signIn(provider, {
         redirect: false,
         callbackUrl: "/",
       });
+      console.log(response);
     } catch (err) {
       console.error(err);
     }
