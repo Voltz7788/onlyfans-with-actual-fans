@@ -1,9 +1,24 @@
 "use client";
 import React, { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+import {
+  isNameInvalid,
+  isEmailInvalid,
+  isPasswordLoginValid,
+  isPasswordSignupValid,
+} from "@/app/utilities/form-utilities/formRegexChecker";
+import {
+  inputStyleChecker,
+  labelStylingChecker,
+  showWarningChecker,
+} from "@/app/utilities/form-utilities/formConditionalStyling";
+import {
+  isLoginSubmittable,
+  isSignupSubmittable,
+} from "@/app/utilities/form-utilities/formSubmitChecker";
+import { IoWarningOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -13,7 +28,15 @@ export const LoginForm = () => {
     password: "",
   });
 
-  const [focus, setFocus] = useState<"email" | "password" | "">("");
+  const [focused, setFocused] = useState({
+    email: false,
+    password: false,
+  });
+
+  const [invalidData, setInvalidData] = useState({
+    email: false,
+    password: false,
+  });
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,19 +57,19 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={loginUser} className="flex flex-col">
-      <p className="text-sm font-semibold">Log in</p>
+      <p className="text-sm font-medium text-onlyfans-black">Log in</p>
 
       {/* Email */}
       <div className="relative mt-3 h-12 transition-all">
         <label
           htmlFor="email"
-          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
-            focus === "email"
-              ? "text-sky-400 -top-2 text-xs ml-4"
-              : loginData.email !== ""
-              ? "text-gray-400 -top-2 text-xs ml-4"
-              : "text-gray-400 top-1/4 text-base ml-4"
-          } cursor-text select-none`}
+          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
+            {
+              focused: focused.email,
+              invalid: invalidData.email,
+              value: loginData.email,
+            }
+          )} cursor-text select-none`}
         >
           Email
         </label>
@@ -55,13 +78,32 @@ export const LoginForm = () => {
           name="email"
           id="email"
           required
-          className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
-          value={loginData.email}
-          onChange={(e) =>
-            setLoginData({ ...loginData, email: e.target.value })
-          }
-          onFocus={() => setFocus("email")}
-          onBlur={() => setFocus("")}
+          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+            {
+              focused: focused.email,
+              invalid: invalidData.email,
+              value: loginData.email,
+            }
+          )}`}
+          onChange={(e) => {
+            setLoginData({ ...loginData, email: e.target.value });
+            setInvalidData({
+              ...invalidData,
+              email: isEmailInvalid(e.target.value),
+            });
+          }}
+          onFocus={() => setFocused({ ...focused, email: true })}
+          onBlur={() => setFocused({ ...focused, email: false })}
+        />
+        <IoWarningOutline
+          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
+            showWarningChecker({
+              focused: focused.email,
+              invalid: invalidData.email,
+            })
+              ? "block"
+              : "hidden"
+          }`}
         />
       </div>
 
@@ -69,13 +111,13 @@ export const LoginForm = () => {
       <div className="relative mt-3 h-12 transition-all">
         <label
           htmlFor="password"
-          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
-            focus === "password"
-              ? "text-sky-400 -top-2 text-xs ml-4"
-              : loginData.password !== ""
-              ? "text-gray-400 -top-2 text-xs ml-4"
-              : "text-gray-400 top-1/4 text-base ml-4"
-          } cursor-text select-none`}
+          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
+            {
+              focused: focused.password,
+              invalid: invalidData.password,
+              value: loginData.password,
+            }
+          )} cursor-text select-none`}
         >
           Password
         </label>
@@ -84,19 +126,39 @@ export const LoginForm = () => {
           name="password"
           id="password"
           required
-          className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
+          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+            {
+              focused: focused.password,
+              invalid: invalidData.password,
+              value: loginData.password,
+            }
+          )}`}
           value={loginData.password}
-          onChange={(e) =>
-            setLoginData({ ...loginData, password: e.target.value })
-          }
-          onFocus={() => setFocus("password")}
-          onBlur={() => setFocus("")}
+          onChange={(e) => {
+            setLoginData({ ...loginData, password: e.target.value });
+            setInvalidData({
+              ...invalidData,
+              password: isPasswordLoginValid(e.target.value),
+            });
+          }}
+          onFocus={() => setFocused({ ...focused, password: true })}
+          onBlur={() => setFocused({ ...focused, password: false })}
+        />
+        <IoWarningOutline
+          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
+            showWarningChecker({
+              focused: focused.password,
+              invalid: invalidData.password,
+            })
+              ? "block"
+              : "hidden"
+          }`}
         />
       </div>
 
       <button
         className={`py-2.5 mt-8 rounded-full uppercase text-white text-center text-sm font-semibold ${
-          loginData.email === "" || loginData.password === ""
+          isLoginSubmittable(loginData, invalidData)
             ? "bg-gray-300 pointer-events-none select-none"
             : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
         } `}
@@ -114,12 +176,19 @@ export const SignupForm = () => {
     name: "",
     email: "",
     password: "",
-    confirmPass: "",
   });
 
-  const [focus, setFocus] = useState<
-    "name" | "email" | "password" | "confirmPass" | ""
-  >("");
+  const [focused, setFocused] = useState({
+    name: false,
+    email: false,
+    password: false,
+  });
+
+  const [invalidData, setInvalidData] = useState({
+    name: false,
+    email: false,
+    password: false,
+  });
 
   const signupUser = async (e: FormEvent) => {
     e.preventDefault();
@@ -134,19 +203,21 @@ export const SignupForm = () => {
 
   return (
     <form onSubmit={signupUser} className="flex flex-col">
-      <p className="text-sm font-semibold">Create your account</p>
+      <p className="text-sm font-medium text-onlyfans-black">
+        Create your account
+      </p>
 
       {/* Name */}
       <div className="relative mt-3 h-12 transition-all">
         <label
           htmlFor="name"
-          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
-            focus === "name"
-              ? "text-sky-400 -top-2 text-xs ml-4"
-              : signupData.name !== ""
-              ? "text-gray-400 -top-2 text-xs ml-4"
-              : "text-gray-400 top-1/4 text-base ml-4"
-          } cursor-text select-none`}
+          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
+            {
+              focused: focused.name,
+              invalid: invalidData.name,
+              value: signupData.name,
+            }
+          )} cursor-text select-none`}
         >
           Name
         </label>
@@ -154,14 +225,35 @@ export const SignupForm = () => {
           type="text"
           name="name"
           id="name"
+          aria-label="name"
           required
-          className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
+          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+            {
+              focused: focused.name,
+              invalid: invalidData.name,
+              value: signupData.name,
+            }
+          )}`}
           value={signupData.name}
-          onChange={(e) =>
-            setSignupData({ ...signupData, name: e.target.value })
-          }
-          onFocus={() => setFocus("name")}
-          onBlur={() => setFocus("")}
+          onChange={(e) => {
+            setSignupData({ ...signupData, name: e.target.value });
+            setInvalidData({
+              ...invalidData,
+              name: isNameInvalid(e.target.value),
+            });
+          }}
+          onFocus={() => setFocused({ ...focused, name: true })}
+          onBlur={() => setFocused({ ...focused, name: false })}
+        />
+        <IoWarningOutline
+          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
+            showWarningChecker({
+              focused: focused.name,
+              invalid: invalidData.name,
+            })
+              ? "block"
+              : "hidden"
+          }`}
         />
       </div>
 
@@ -169,96 +261,106 @@ export const SignupForm = () => {
       <div className="relative mt-3 h-12 transition-all">
         <label
           htmlFor="email"
-          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
-            focus === "email"
-              ? "text-sky-400 -top-2 text-xs ml-4"
-              : signupData.email !== ""
-              ? "text-gray-400 -top-2 text-xs ml-4"
-              : "text-gray-400 top-1/4 text-base ml-4"
-          } cursor-text select-none`}
+          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
+            {
+              focused: focused.email,
+              invalid: invalidData.email,
+              value: signupData.email,
+            }
+          )} cursor-text select-none`}
         >
           Email
         </label>
         <input
           type="email"
           name="email"
+          aria-label="email"
           id="email"
           required
-          className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
+          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+            {
+              focused: focused.email,
+              invalid: invalidData.email,
+              value: signupData.email,
+            }
+          )}`}
           value={signupData.email}
-          onChange={(e) =>
-            setSignupData({ ...signupData, email: e.target.value })
-          }
-          onFocus={() => setFocus("email")}
-          onBlur={() => setFocus("")}
+          onChange={(e) => {
+            setSignupData({ ...signupData, email: e.target.value });
+            setInvalidData({
+              ...invalidData,
+              email: isEmailInvalid(e.target.value),
+            });
+          }}
+          onFocus={() => setFocused({ ...focused, email: true })}
+          onBlur={() => setFocused({ ...focused, email: false })}
+        />
+        <IoWarningOutline
+          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
+            showWarningChecker({
+              focused: focused.email,
+              invalid: invalidData.email,
+            })
+              ? "block"
+              : "hidden"
+          }`}
         />
       </div>
 
       {/* Password */}
-      <div className="relative mt-3 h-12 transition-all">
+      <div className="relative mt-3 h-12 transition-all border">
         <label
           htmlFor="password"
-          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
-            focus === "password"
-              ? "text-sky-400 -top-2 text-xs ml-4"
-              : signupData.password !== ""
-              ? "text-gray-400 -top-2 text-xs ml-4"
-              : "text-gray-400 top-1/4 text-base ml-4"
-          } cursor-text select-none`}
+          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
+            {
+              focused: focused.password,
+              invalid: invalidData.password,
+              value: signupData.password,
+            }
+          )} cursor-text select-none`}
         >
           Password
         </label>
         <input
           type="password"
           name="password"
+          aria-label="password"
           id="password"
           required
-          className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
+          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+            {
+              focused: focused.password,
+              invalid: invalidData.password,
+              value: signupData.password,
+            }
+          )}`}
           value={signupData.password}
-          onChange={(e) =>
-            setSignupData({ ...signupData, password: e.target.value })
-          }
-          onFocus={() => setFocus("password")}
-          onBlur={() => setFocus("")}
+          onChange={(e) => {
+            setSignupData({ ...signupData, password: e.target.value });
+            setInvalidData({
+              ...invalidData,
+              password: isPasswordSignupValid(e.target.value),
+            });
+          }}
+          onFocus={() => setFocused({ ...focused, password: true })}
+          onBlur={() => setFocused({ ...focused, password: false })}
         />
-      </div>
-
-      {/* Confirm Password */}
-      <div className="relative mt-3 h-12 transition-all">
-        <label
-          htmlFor="confirmPass"
-          className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white  ${
-            focus === "confirmPass"
-              ? "text-sky-400 -top-2 text-xs ml-4"
-              : signupData.confirmPass !== ""
-              ? "text-gray-400 -top-2 text-xs ml-4"
-              : "text-gray-400 top-1/4 text-base ml-4"
-          } cursor-text select-none`}
-        >
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          name="confirmPass"
-          id="confirmPass"
-          required
-          className="border h-12 px-3 rounded-md text-onlyfans-black bg-white border-gray-300 w-full focus:outline-none outline-none focus:border-sky-400 transition-all duration-75"
-          value={signupData.confirmPass}
-          onChange={(e) =>
-            setSignupData({ ...signupData, confirmPass: e.target.value })
-          }
-          onFocus={() => setFocus("confirmPass")}
-          onBlur={() => setFocus("")}
+        <IoWarningOutline
+          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
+            showWarningChecker({
+              focused: focused.password,
+              invalid: invalidData.password,
+            })
+              ? "block"
+              : "hidden"
+          }`}
         />
       </div>
 
       <button
         type="submit"
         className={`py-2.5 mt-8 rounded-full uppercase text-white text-center text-sm font-semibold ${
-          signupData.name === "" ||
-          signupData.email === "" ||
-          signupData.password === "" ||
-          signupData.confirmPass === ""
+          isSignupSubmittable(signupData, invalidData)
             ? "bg-gray-300 pointer-events-none select-none"
             : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
         } `}

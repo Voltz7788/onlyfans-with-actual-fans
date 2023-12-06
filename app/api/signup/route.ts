@@ -4,20 +4,12 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { name, email, password, confirmPass } = body;
+  const { name, email, password } = body;
 
-  if (!name || !email || !password || !confirmPass) {
+  if (!name || !email || !password) {
     return new NextResponse(null, {
       status: 400,
       statusText: "Missing fields. Please enter all required information.",
-    });
-  }
-
-  if (password !== confirmPass) {
-    return new NextResponse(null, {
-      status: 400,
-      statusText:
-        "Passwords do not match. Please make sure both passwords are the same.",
     });
   }
 
