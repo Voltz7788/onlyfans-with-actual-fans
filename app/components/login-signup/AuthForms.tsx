@@ -19,6 +19,8 @@ import {
   isSignupSubmittable,
 } from "@/app/utilities/form-utilities/formSubmitChecker";
 import { IoWarningOutline } from "react-icons/io5";
+import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -37,6 +39,8 @@ export const LoginForm = () => {
     email: false,
     password: false,
   });
+
+  const [passVisible, setPassVisible] = useState(false);
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
@@ -78,7 +82,7 @@ export const LoginForm = () => {
           name="email"
           id="email"
           required
-          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+          className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
             {
               focused: focused.email,
               invalid: invalidData.email,
@@ -95,16 +99,18 @@ export const LoginForm = () => {
           onFocus={() => setFocused({ ...focused, email: true })}
           onBlur={() => setFocused({ ...focused, email: false })}
         />
-        <IoWarningOutline
-          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
-            showWarningChecker({
-              focused: focused.email,
-              invalid: invalidData.email,
-            })
-              ? "block"
-              : "hidden"
-          }`}
-        />
+        <div className="absolute flex gap-2 top-1/4 right-4 text-2xl">
+          <IoWarningOutline
+            className={`text-red-400 ${
+              showWarningChecker({
+                focused: focused.email,
+                invalid: invalidData.email,
+              })
+                ? "block"
+                : "hidden"
+            }`}
+          />
+        </div>
       </div>
 
       {/* Password */}
@@ -122,17 +128,17 @@ export const LoginForm = () => {
           Password
         </label>
         <input
-          type="password"
+          type={passVisible ? "text" : "password"}
           name="password"
           id="password"
           required
-          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+          className={`border h-12 pl-3 focus:pr-14 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
             {
               focused: focused.password,
               invalid: invalidData.password,
               value: loginData.password,
             }
-          )}`}
+          )} ${invalidData.password ? "pr-20" : "pr-14"}`}
           value={loginData.password}
           onChange={(e) => {
             setLoginData({ ...loginData, password: e.target.value });
@@ -144,16 +150,29 @@ export const LoginForm = () => {
           onFocus={() => setFocused({ ...focused, password: true })}
           onBlur={() => setFocused({ ...focused, password: false })}
         />
-        <IoWarningOutline
-          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
-            showWarningChecker({
-              focused: focused.password,
-              invalid: invalidData.password,
-            })
-              ? "block"
-              : "hidden"
-          }`}
-        />
+        <div className="absolute flex gap-2 top-1/4 right-4 text-2xl">
+          <button
+            type="button"
+            className="text-onlyfans-light-gray text-3xl -mt-0.5 hover:text-onlyfans-light-blue transition-colors duration-75 rounded-full hover:bg-sky-50"
+            onClick={(e) => setPassVisible(!passVisible)}
+          >
+            {passVisible ? (
+              <AiOutlineEyeInvisible className="p-0.5" />
+            ) : (
+              <AiOutlineEye className="p-0.5" />
+            )}
+          </button>
+          <IoWarningOutline
+            className={`text-red-400  ${
+              showWarningChecker({
+                focused: focused.password,
+                invalid: invalidData.password,
+              })
+                ? "block"
+                : "hidden"
+            }`}
+          />
+        </div>
       </div>
 
       <button
@@ -189,6 +208,8 @@ export const SignupForm = () => {
     email: false,
     password: false,
   });
+
+  const [passVisible, setPassVisible] = useState(false);
 
   const signupUser = async (e: FormEvent) => {
     e.preventDefault();
@@ -227,7 +248,7 @@ export const SignupForm = () => {
           id="name"
           aria-label="name"
           required
-          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+          className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
             {
               focused: focused.name,
               invalid: invalidData.name,
@@ -277,7 +298,7 @@ export const SignupForm = () => {
           aria-label="email"
           id="email"
           required
-          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+          className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
             {
               focused: focused.email,
               invalid: invalidData.email,
@@ -308,7 +329,7 @@ export const SignupForm = () => {
       </div>
 
       {/* Password */}
-      <div className="relative mt-3 h-12 transition-all border">
+      <div className="relative mt-3 h-12 transition-all">
         <label
           htmlFor="password"
           className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
@@ -322,18 +343,18 @@ export const SignupForm = () => {
           Password
         </label>
         <input
-          type="password"
+          type={passVisible ? "text" : "password"}
           name="password"
           aria-label="password"
           id="password"
           required
-          className={`border h-12 px-3 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
+          className={`border h-12 pl-3 focus:pr-14 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
             {
               focused: focused.password,
               invalid: invalidData.password,
               value: signupData.password,
             }
-          )}`}
+          )} ${invalidData.password ? "pr-20" : "pr-14"}`}
           value={signupData.password}
           onChange={(e) => {
             setSignupData({ ...signupData, password: e.target.value });
@@ -345,16 +366,29 @@ export const SignupForm = () => {
           onFocus={() => setFocused({ ...focused, password: true })}
           onBlur={() => setFocused({ ...focused, password: false })}
         />
-        <IoWarningOutline
-          className={`absolute top-1/4 right-4 text-2xl text-red-400 ${
-            showWarningChecker({
-              focused: focused.password,
-              invalid: invalidData.password,
-            })
-              ? "block"
-              : "hidden"
-          }`}
-        />
+        <div className="absolute flex gap-2 top-1/4 right-4 text-2xl">
+          <button
+            type="button"
+            className="text-onlyfans-light-gray text-3xl -mt-0.5 hover:text-onlyfans-light-blue transition-colors duration-75 rounded-full hover:bg-sky-50"
+            onClick={(e) => setPassVisible(!passVisible)}
+          >
+            {passVisible ? (
+              <AiOutlineEyeInvisible className="p-0.5" />
+            ) : (
+              <AiOutlineEye className="p-0.5" />
+            )}
+          </button>
+          <IoWarningOutline
+            className={`text-red-400  ${
+              showWarningChecker({
+                focused: focused.password,
+                invalid: invalidData.password,
+              })
+                ? "block"
+                : "hidden"
+            }`}
+          />
+        </div>
       </div>
 
       <button
