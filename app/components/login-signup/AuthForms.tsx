@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 import { signIn } from "next-auth/react";
 import {
   isNameInvalid,
@@ -21,9 +21,14 @@ import {
 import { IoWarningOutline } from "react-icons/io5";
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { tailChase } from "ldrs";
+import type {} from "ldrs";
 
 export const LoginForm = () => {
   const router = useRouter();
+
+  tailChase.register("submit-loader");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -42,10 +47,16 @@ export const LoginForm = () => {
 
   const [passVisible, setPassVisible] = useState(false);
 
-  const [serverError, setServerError] = useState("");
+  const searchParams = useSearchParams();
+
+  const [serverErrors, setServerErrors] = useState({
+    general: "",
+    OAuth: searchParams.get("error"),
+  });
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await signIn("credentials", {
@@ -59,18 +70,22 @@ export const LoginForm = () => {
       }
 
       if (response?.error) {
-        setServerError(response.error);
-        // console.log(response.error);
+        setServerErrors({ ...serverErrors, general: response.error });
       }
-      // if (!response?.ok) throw new Error(response?.error!);
     } catch (err) {
       console.error(err);
     }
+
+    setIsLoading(false);
   };
 
   return (
     <form onSubmit={loginUser} className="flex flex-col">
       <p className="text-sm font-medium text-onlyfans-black">Log in</p>
+
+      <p className="text-xs text-onlyfans-light-gray mt-3">
+        <span className="text-red-400">*</span> Required information
+      </p>
 
       {/* Email */}
       <div className="h-16 mt-4">
@@ -85,13 +100,14 @@ export const LoginForm = () => {
               }
             )} cursor-text select-none`}
           >
-            Email
+            Email <span className="text-red-400">*</span>
           </label>
           <input
             type="email"
             name="email"
             id="email"
             required
+            aria-required="true"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
                 focused: focused.email,
@@ -105,7 +121,7 @@ export const LoginForm = () => {
                 ...invalidData,
                 email: isEmailInvalid(e.target.value),
               });
-              setServerError("");
+              setServerErrors({ general: "", OAuth: "" });
             }}
             onFocus={() => setFocused({ ...focused, email: true })}
             onBlur={() => setFocused({ ...focused, email: false })}
@@ -151,13 +167,14 @@ export const LoginForm = () => {
               }
             )} cursor-text select-none`}
           >
-            Password
+            Password <span className="text-red-400">*</span>
           </label>
           <input
             type={passVisible ? "text" : "password"}
             name="password"
             id="password"
             required
+            aria-required="true"
             className={`border h-12 pl-3 focus:pr-14 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
               {
                 focused: focused.password,
@@ -172,7 +189,7 @@ export const LoginForm = () => {
                 ...invalidData,
                 password: isPasswordLoginValid(e.target.value),
               });
-              setServerError("");
+              setServerErrors({ general: "", OAuth: "" });
             }}
             onFocus={() => setFocused({ ...focused, password: true })}
             onBlur={() => setFocused({ ...focused, password: false })}
@@ -214,17 +231,28 @@ export const LoginForm = () => {
         )}
 
         {/* Server side error feedback */}
-        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>{serverError}</p>
+        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>
+          {serverErrors.general}
+        </p>
+        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>
+          {serverErrors.OAuth
+            ? "This email is already associated with a user. Please login with the correct social account."
+            : ""}
+        </p>
       </div>
 
       <button
-        className={`py-2.5 mt-4 rounded-full uppercase text-white text-center text-sm font-semibold ${
+        className={`py-2.5 mt-6 flex justify-center items-center gap-3 rounded-full uppercase text-white text-center text-sm font-semibold transition-all duration-75 ${
           isLoginSubmittable(loginData, invalidData)
             ? "bg-gray-300 pointer-events-none select-none"
-            : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
+            : isLoading
+            ? "bg-onlyfans-blue"
+            : "bg-onlyfans-light-blue hover:opacity-80"
         } `}
       >
-        Log In
+        <p>{isLoading ? "Loading" : "Log In"}</p>
+        {/* @ts-ignore */}
+        {isLoading && <submit-loader color="white" size="16"></submit-loader>}
       </button>
     </form>
   );
@@ -232,6 +260,9 @@ export const LoginForm = () => {
 
 export const SignupForm = () => {
   const router = useRouter();
+
+  tailChase.register("submit-loader");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [signupData, setSignupData] = useState({
     name: "",
@@ -253,10 +284,17 @@ export const SignupForm = () => {
 
   const [passVisible, setPassVisible] = useState(false);
 
-  const [serverError, setServerError] = useState("");
+  const searchParams = useSearchParams();
+
+  const [serverErrors, setServerErrors] = useState({
+    general: "",
+    OAuth: searchParams.get("error"),
+  });
 
   const signupUser = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
       const response = await axios.post("/api/signup", signupData);
 
@@ -264,14 +302,20 @@ export const SignupForm = () => {
         router.push("/login");
       }
     } catch (err: any) {
-      setServerError(err.response.statusText);
+      setServerErrors({ ...serverErrors, general: err.response.statusText });
     }
+
+    setIsLoading(false);
   };
 
   return (
     <form onSubmit={signupUser} className="flex flex-col">
       <p className="text-sm font-medium text-onlyfans-black">
         Create your account
+      </p>
+
+      <p className="text-xs text-onlyfans-light-gray mt-3">
+        <span className="text-red-400">*</span> Required information
       </p>
 
       {/* Name */}
@@ -287,7 +331,7 @@ export const SignupForm = () => {
               }
             )} cursor-text select-none`}
           >
-            Name
+            Name <span className="text-red-400">*</span>
           </label>
           <input
             type="text"
@@ -295,6 +339,7 @@ export const SignupForm = () => {
             id="name"
             aria-label="name"
             required
+            aria-required="true"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
                 focused: focused.name,
@@ -309,6 +354,7 @@ export const SignupForm = () => {
                 ...invalidData,
                 name: isNameInvalid(e.target.value),
               });
+              setServerErrors({ general: "", OAuth: "" });
             }}
             onFocus={() => setFocused({ ...focused, name: true })}
             onBlur={() => setFocused({ ...focused, name: false })}
@@ -352,7 +398,7 @@ export const SignupForm = () => {
               }
             )} cursor-text select-none`}
           >
-            Email
+            Email <span className="text-red-400">*</span>
           </label>
           <input
             type="email"
@@ -360,6 +406,7 @@ export const SignupForm = () => {
             aria-label="email"
             id="email"
             required
+            aria-required="true"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
                 focused: focused.email,
@@ -374,6 +421,7 @@ export const SignupForm = () => {
                 ...invalidData,
                 email: isEmailInvalid(e.target.value),
               });
+              setServerErrors({ general: "", OAuth: "" });
             }}
             onFocus={() => setFocused({ ...focused, email: true })}
             onBlur={() => setFocused({ ...focused, email: false })}
@@ -417,7 +465,7 @@ export const SignupForm = () => {
               }
             )} cursor-text select-none`}
           >
-            Password
+            Password <span className="text-red-400">*</span>
           </label>
           <input
             type={passVisible ? "text" : "password"}
@@ -425,6 +473,7 @@ export const SignupForm = () => {
             aria-label="password"
             id="password"
             required
+            aria-required="true"
             className={`border h-12 pl-3 focus:pr-14 rounded-md bg-white w-full focus:outline-none outline-none transition-all duration-75 ${inputStyleChecker(
               {
                 focused: focused.password,
@@ -439,6 +488,7 @@ export const SignupForm = () => {
                 ...invalidData,
                 password: isPasswordSignupValid(e.target.value),
               });
+              setServerErrors({ general: "", OAuth: "" });
             }}
             onFocus={() => setFocused({ ...focused, password: true })}
             onBlur={() => setFocused({ ...focused, password: false })}
@@ -486,18 +536,28 @@ export const SignupForm = () => {
         )}
 
         {/* Server side error feedback */}
-        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>{serverError}</p>
+        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>
+          {serverErrors.general}
+        </p>
+        <p className={`pl-4 text-red-400 text-xs mt-0.5`}>
+          {serverErrors.OAuth
+            ? "This email is already associated with a user. Please login with the correct social account."
+            : ""}
+        </p>
       </div>
 
       <button
-        type="submit"
-        className={`py-2.5 mt-4 rounded-full uppercase text-white text-center text-sm font-semibold ${
+        className={`py-2.5 mt-6 flex justify-center items-center gap-3 rounded-full uppercase text-white text-center text-sm font-semibold transition-all duration-75 ${
           isSignupSubmittable(signupData, invalidData)
             ? "bg-gray-300 pointer-events-none select-none"
-            : "bg-onlyfans-light-blue hover:opacity-80 transition-all duration-150"
+            : isLoading
+            ? "bg-onlyfans-blue"
+            : "bg-onlyfans-light-blue hover:opacity-80"
         } `}
       >
-        Sign Up
+        <p>{isLoading ? "Loading" : "Sign Up"}</p>
+        {/* @ts-ignore */}
+        {isLoading && <submit-loader color="white" size="16"></submit-loader>}
       </button>
     </form>
   );

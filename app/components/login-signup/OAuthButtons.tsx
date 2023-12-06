@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { GithubLogo, GoogleIcon, TwitterIcon } from "../shared/IconComponents";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 type OAuthTypes = "twitter" | "google" | "github";
 

@@ -6,6 +6,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/prisma/prismaGlobal";
 import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -42,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          throw new Error("User doesn't exist.");
+          throw new Error("Incorrect email or password.");
         }
 
         const passwordsMatch = await bcrypt.compare(
@@ -51,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!passwordsMatch) {
-          throw new Error("Incorrect password.");
+          throw new Error("Incorrect email or password.");
         }
 
         console.log(user);
@@ -59,23 +60,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      const userExists = await prisma.user.findUnique({
-        where: { email: user.email! },
-      });
 
-      const userAccount = await prisma.account.findFirst({
-        where: { userId: userExists?.id, AND: { provider: account?.provider } },
-      });
-
-      if (!userAccount) {
-        throw new Error("custom error to the client");
-      }
-
-      return true;
-    },
-  },
   session: {
     strategy: "jwt",
   },
