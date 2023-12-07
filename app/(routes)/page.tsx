@@ -18,39 +18,38 @@ export default async function Home() {
   return (
     <main className="relative border-x w-full xl:w-1/3 h-[2000px] overflow-">
       <TopNav pageTitle="home" />
-      <div className="mt-16">
-        <Link
-          href={"/create-post"}
-          className="focus:outline-1 focus:outline-onlyfans-light-blue"
-        >
-          <CreatePost />
-        </Link>
-        <div className="bg-gray-100 h-1.5 w-full"></div>
-        <Post>
-          <Post.Header
-            name={session.user?.name as string}
-            username={`@${session.username}`}
-            timePosted={"2 hours ago"}
-            profilePic={session.user?.image || defaultAvatar}
-          />
-          <Post.Text postText={"This is some text."} />
-          <Post.Image />
-          <Post.Video />
-          <Post.Buttons isLiked numOfLikes={269} />
-        </Post>
-        <Post>
-          <Post.Header
-            name={session.user?.name as string}
-            username={`@${session.username}`}
-            timePosted={"2 hours ago"}
-            profilePic={session.user?.image || defaultAvatar}
-          />
-          <Post.Text postText={"This is some text."} />
-          <Post.Image />
-          <Post.Video />
-          <Post.Buttons numOfLikes={125} />
-        </Post>
-      </div>
+
+      <Link
+        href={"/create-post"}
+        className="focus:outline-1 focus:outline-onlyfans-light-blue"
+      >
+        <CreatePost />
+      </Link>
+      <div className="bg-gray-100 h-1.5 w-full"></div>
+      <Post>
+        <Post.Header
+          name={session.user?.name as string}
+          username={`@${session.username}`}
+          timePosted={"2 hours ago"}
+          profilePic={session.user?.image || defaultAvatar}
+        />
+        <Post.Text postText={"This is some text."} />
+        <Post.Image />
+        <Post.Video />
+        <Post.Buttons isLiked numOfLikes={269} />
+      </Post>
+      <Post>
+        <Post.Header
+          name={session.user?.name as string}
+          username={`@${session.username}`}
+          timePosted={"2 hours ago"}
+          profilePic={session.user?.image || defaultAvatar}
+        />
+        <Post.Text postText={"This is some text."} />
+        <Post.Image />
+        <Post.Video />
+        <Post.Buttons numOfLikes={125} />
+      </Post>
     </main>
   );
 }

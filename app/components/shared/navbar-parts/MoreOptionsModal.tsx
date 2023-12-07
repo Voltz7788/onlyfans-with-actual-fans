@@ -43,7 +43,7 @@ export default function MoreOptionsModal({ profilePic }: ModalProps) {
           height={11}
           unoptimized
           alt="Your profile picture"
-          className="w-11 rounded-full"
+          className={`w-9 mb-1 sm:w-11 sm:mb-0 rounded-full`}
         />
       </button>
       <Modal
@@ -58,7 +58,7 @@ export default function MoreOptionsModal({ profilePic }: ModalProps) {
       >
         <button
           onClick={handleSignOut}
-          className={`flex items-center gap-2 text-white font-semibold w-full text-start px-3 mt-4 -ml-2.5 rounded-full h-8 transition-colors duration-100 ${
+          className={`flex items-center max-w-[200px] gap-2 text-white font-semibold w-full text-start px-3 mt-4 -ml-2.5 rounded-full h-8 transition-colors duration-100 ${
             isSigningOut
               ? "bg-onlyfans-blue"
               : "bg-onlyfans-light-blue hover:bg-onlyfans-blue"

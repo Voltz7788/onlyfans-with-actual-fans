@@ -6,6 +6,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { PiFan } from "react-icons/pi";
 import { FiPlusSquare } from "react-icons/fi";
+import MoreOptionsModal from "./MoreOptionsModal";
 
 type NavProps = {
   linkStyles: string;
@@ -80,7 +81,7 @@ export default function MobileNav({
           >
             <BiMessageDetail />
           </Link>
-          <Link
+          {/* <Link
             href={"/profile"}
             className="max-w-[250px] xl:w-full rounded-full focus:outline-onlyfans-blue text-base flex items-center gap-4 p-2 -mb-0.5"
             aria-label="My Profile"
@@ -93,7 +94,8 @@ export default function MobileNav({
               alt="Your profile picture"
               className="w-9 rounded-full"
             />
-          </Link>
+          </Link> */}
+          <MoreOptionsModal profilePic={profilePic} />
         </div>
       </IconContext.Provider>
     </nav>
