@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "react-icons": "^4.12.0",
     "react-spinners": "^0.13.8",
-    "react-tooltip": "^5.24.0"
+    "react-tooltip": "^5.24.0",
+    "unique-username-generator": "^1.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.5",

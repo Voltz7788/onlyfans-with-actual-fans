@@ -6,13 +6,14 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/prisma/prismaGlobal";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+import { generateFromEmail, generateUsername } from "unique-username-generator";
+import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: CustomPrismaAdapter(prisma) as Adapter,
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
@@ -59,8 +60,42 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, account, profile, user }) {
+      console.log(profile);
+      console.log(account);
+      if (account) {
+        token.email = user?.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      console.log(session);
+      console.log(token);
+      if (token.email) {
+        const user = await prisma.user.findUnique({
+          where: { email: token.email as string },
+        });
+
+        const username = user?.username;
+        const newSession = { ...session, username };
+        return newSession;
+      }
+      return session;
+    },
+  },
 
   session: {
     strategy: "jwt",
   },
 };
+
+function CustomPrismaAdapter(p: typeof prisma) {
+  return {
+    ...PrismaAdapter(p),
+    createUser: (data: any) => {
+      const username = generateUsername();
+      return p.user.create({ data: { ...data, username } });
+    },
+  };
+}

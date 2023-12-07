@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-
 import "react-tooltip/dist/react-tooltip.css";
 import "./globals.css";
 

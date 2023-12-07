@@ -9,7 +9,7 @@ import { FiPlusSquare } from "react-icons/fi";
 
 type NavProps = {
   linkStyles: string;
-  profilePic: StaticImageData;
+  profilePic: string | StaticImageData;
   pathname: string;
 };
 
@@ -87,6 +87,9 @@ export default function MobileNav({
           >
             <Image
               src={profilePic}
+              width={11}
+              height={11}
+              unoptimized
               alt="Your profile picture"
               className="w-9 rounded-full"
             />

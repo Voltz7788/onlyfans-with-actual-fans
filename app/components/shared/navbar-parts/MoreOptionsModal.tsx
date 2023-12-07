@@ -6,7 +6,7 @@ import { TbLogout2 } from "react-icons/tb";
 import { PulseLoader } from "react-spinners";
 
 type ModalProps = {
-  profilePic: StaticImageData;
+  profilePic: string | StaticImageData;
 };
 
 export default function MoreOptionsModal({ profilePic }: ModalProps) {
@@ -39,6 +39,9 @@ export default function MoreOptionsModal({ profilePic }: ModalProps) {
       >
         <Image
           src={profilePic}
+          width={11}
+          height={11}
+          unoptimized
           alt="Your profile picture"
           className="w-11 rounded-full"
         />

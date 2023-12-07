@@ -1,30 +1,34 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
-import demoImage from "../../../../public/yannis-image-demo.jpg";
 import { FaRegHeart, FaHeart, FaRegComment } from "react-icons/fa6";
 import { AiOutlineDollar } from "react-icons/ai";
 
 type PostHeaderProps = {
+  name: string;
   username: string;
-  handle: string;
   timePosted: string;
+  profilePic: string | StaticImageData;
 };
 
 export const PostHeader = ({
+  name,
   username,
-  handle,
   timePosted,
+  profilePic,
 }: PostHeaderProps) => {
   return (
     <div className="flex items-center">
       <Image
-        src={demoImage}
+        src={profilePic}
+        width={11}
+        height={11}
+        unoptimized
         alt="User profile picture"
-        className="rounded-full w-12"
+        className="rounded-full w-11"
       />
       <div className="ml-3">
-        <p>{username}</p>
-        <p className="text-sm text-onlyfans-light-gray">{handle}</p>
+        <p>{name}</p>
+        <p className="text-sm text-onlyfans-light-gray">{username}</p>
       </div>
       <p className="text-sm text-onlyfans-light-gray mr-5 ml-auto">
         {timePosted}

@@ -5,9 +5,11 @@ import TopNav from "../components/shared/TopNav";
 import Post from "../components/home-page/posts/Post";
 import { auth } from "../utilities/getServerSessionHelper";
 import { redirect } from "next/navigation";
+import demoImage from "../../public/yannis-image-demo.jpg";
+import { CustomSession } from "@/@types/types";
 
 export default async function Home() {
-  const session = await auth();
+  const session = (await auth()) as CustomSession;
 
   if (!session) {
     redirect("/login");
@@ -26,9 +28,10 @@ export default async function Home() {
         <div className="bg-gray-100 h-1.5 w-full"></div>
         <Post>
           <Post.Header
-            username={"yannismadu"}
-            handle={"@yannismadu"}
+            name={session.user?.name as string}
+            username={`@${session.username}`}
             timePosted={"2 hours ago"}
+            profilePic={session.user?.image || demoImage}
           />
           <Post.Text postText={"This is some text."} />
           <Post.Image />
@@ -37,9 +40,10 @@ export default async function Home() {
         </Post>
         <Post>
           <Post.Header
-            username={"yannismadu"}
-            handle={"@yannismadu"}
+            name={session.user?.name as string}
+            username={`@${session.username}`}
             timePosted={"2 hours ago"}
+            profilePic={session.user?.image || demoImage}
           />
           <Post.Text postText={"This is some text."} />
           <Post.Image />

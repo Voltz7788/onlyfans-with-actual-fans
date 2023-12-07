@@ -12,7 +12,7 @@ import MoreOptionsModal from "./MoreOptionsModal";
 
 type NavProps = {
   linkStyles: string;
-  profilePic: StaticImageData;
+  profilePic: string | StaticImageData;
   pathname: string;
 };
 

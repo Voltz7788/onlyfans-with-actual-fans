@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Roboto } from "next/font/google";
 import Navbar from "../components/shared/Navbar";
+import { auth } from "../utilities/getServerSessionHelper";
 import "react-tooltip/dist/react-tooltip.css";
 import "../globals.css";
 
@@ -16,14 +17,16 @@ export const metadata: Metadata = {
     "This project is a full-stack website that allows users to create accounts and subscribe to creators so they can access photos and videos of fans (the type you would use to cool yourself down on a hot summers day ☀️).",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
     <div className="flex">
-      <Navbar />
+      <Navbar session={session} />
       {children}
     </div>
   );
