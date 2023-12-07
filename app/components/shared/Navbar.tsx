@@ -1,11 +1,9 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import demoImage from "../../../public/yannis-image-demo.jpg";
+import defaultAvatar from "../../../public/defaultAvatar.png";
 import DesktopNav from "./navbar-parts/DesktopNav";
 import MobileNav from "./navbar-parts/MobileNav";
-import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 
 type NavbarProps = {
@@ -24,12 +22,12 @@ export default function Navbar({ session }: NavbarProps) {
     <>
       <DesktopNav
         linkStyles={linkStyles}
-        profilePic={session?.user?.image || demoImage}
+        profilePic={session?.user?.image || defaultAvatar}
         pathname={pathname}
       />
       <MobileNav
         linkStyles={linkStyles}
-        profilePic={session?.user?.image || demoImage}
+        profilePic={session?.user?.image || defaultAvatar}
         pathname={pathname}
       />
     </>
