@@ -13,7 +13,6 @@ export default async function CreatePostPage() {
   return (
     <main className="border-x w-full xl:w-1/3 h-[2000px]">
       <TopNav pageTitle="New Post" />
-
       <CreatePost />
     </main>
   );

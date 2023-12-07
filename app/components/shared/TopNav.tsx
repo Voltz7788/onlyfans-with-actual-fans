@@ -2,17 +2,19 @@
 import React from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import type { Session } from "next-auth";
 
 type TopNavProps = {
   pageTitle: string;
+  session: Session;
 };
 
-export default function TopNav({ pageTitle }: TopNavProps) {
+export default function TopNav({ pageTitle, session }: TopNavProps) {
   const router = useRouter();
   return (
     <nav
-      className={`w-full left-0 xl:flex border-b sticky top-0 ${
-        pageTitle === "Profile" ? "bg-transparent" : "bg-white"
+      className={`w-full left-0 xl:flex sticky top-0 ${
+        pageTitle === "Profile" ? "bg-transparent" : "bg-white border-b"
       }`}
     >
       <div
@@ -27,10 +29,20 @@ export default function TopNav({ pageTitle }: TopNavProps) {
             onClick={() => router.back()}
             aria-label="Go to previous page"
           >
-            <IoArrowBack className="text-2xl" />
+            <IoArrowBack
+              className={`text-2xl ${
+                pageTitle === "Profile" ? "text-white" : ""
+              }`}
+            />
           </button>
         )}
-        <h1 className="text-lg uppercase">{pageTitle}</h1>
+        <h1
+          className={`text-lg ${
+            pageTitle === "Profile" ? "text-white" : "uppercase"
+          }`}
+        >
+          {pageTitle === "Profile" ? session.user?.name : pageTitle}
+        </h1>
       </div>
     </nav>
   );

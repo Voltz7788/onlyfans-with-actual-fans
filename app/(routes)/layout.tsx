@@ -4,6 +4,7 @@ import Navbar from "../components/shared/Navbar";
 import { auth } from "../utilities/getServerSessionHelper";
 import "react-tooltip/dist/react-tooltip.css";
 import "../globals.css";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({

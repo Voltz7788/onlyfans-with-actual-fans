@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "react-tooltip/dist/react-tooltip.css";
 import "./globals.css";
+import { auth } from "./utilities/getServerSessionHelper";
+import { SessionProvider } from "next-auth/react";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
     "This project is a full-stack website that allows users to create accounts and subscribe to creators so they can access photos and videos of fans (the type you would use to cool yourself down on a hot summers day ☀️).",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;

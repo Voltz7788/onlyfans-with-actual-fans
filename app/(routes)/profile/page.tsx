@@ -2,6 +2,7 @@ import React from "react";
 import TopNav from "@/app/components/shared/TopNav";
 import { auth } from "../../utilities/getServerSessionHelper";
 import { redirect } from "next/navigation";
+import ProfileHeader from "@/app/components/profile-page/ProfileHeader";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -11,9 +12,9 @@ export default async function ProfilePage() {
   }
 
   return (
-    <main className="border-x w-full xl:w-1/3 h-[2000px]">
-      <TopNav pageTitle="Profile" />
-      <div className="mt-16"></div>
+    <main className="border-x w-full xl:w-1/3 h-screen">
+      <TopNav pageTitle="Profile" session={session} />
+      <ProfileHeader />
     </main>
   );
 }
