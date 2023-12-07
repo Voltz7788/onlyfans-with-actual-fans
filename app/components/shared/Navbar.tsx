@@ -11,8 +11,6 @@ type NavbarProps = {
 };
 
 export default function Navbar({ session }: NavbarProps) {
-  const loggedIn = true;
-
   const pathname = usePathname();
 
   const linkStyles =

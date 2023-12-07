@@ -16,7 +16,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="relative border-x w-full xl:w-1/3">
+    <main className="relative border-x w-full xl:w-1/3 h-[2000px] overflow-">
       <TopNav pageTitle="home" />
       <div className="mt-16">
         <Link
