@@ -10,8 +10,16 @@ type TopNavProps = {
 export default function TopNav({ pageTitle }: TopNavProps) {
   const router = useRouter();
   return (
-    <nav className="w-full left-0 xl:flex border-b bg-white sticky top-0">
-      <div className="flex items-center gap-4 h-16 px-6 py-4 font-medium bg-white">
+    <nav
+      className={`w-full left-0 xl:flex border-b sticky top-0 ${
+        pageTitle === "Profile" ? "bg-transparent" : "bg-white"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-4 h-16 px-6 py-4 font-medium ${
+          pageTitle === "Profile" ? "bg-transparent" : "bg-white"
+        }`}
+      >
         {pageTitle === "home" ? (
           <></>
         ) : (
