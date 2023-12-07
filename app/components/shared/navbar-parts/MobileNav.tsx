@@ -1,5 +1,5 @@
 import React from "react";
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
 import { AiOutlineHome } from "react-icons/ai";
