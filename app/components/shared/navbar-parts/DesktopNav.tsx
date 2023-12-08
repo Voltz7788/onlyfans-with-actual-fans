@@ -8,6 +8,7 @@ import { BsBookmarkStar } from "react-icons/bs";
 import { PiFan } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { FiPlus } from "react-icons/fi";
+import { IoSettingsOutline } from "react-icons/io5";
 import MoreOptionsModal from "./MoreOptionsModal";
 
 type NavProps = {
@@ -85,6 +86,18 @@ export default function DesktopNav({
           >
             <CgProfile />
             <p className="hidden lg:block">My Profile</p>
+          </Link>
+          <Link
+            href={"/settings"}
+            className={`${
+              pathname === "/settings"
+                ? "text-onlyfans-black"
+                : "text-onlyfans-light-gray"
+            } ${linkStyles}`}
+            aria-label="Settings"
+          >
+            <IoSettingsOutline />
+            <p className="hidden lg:block">Settings</p>
           </Link>
           {pathname === "/create-post" ? (
             <button

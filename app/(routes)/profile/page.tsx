@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   }
 
   return (
-    <main className="border-x w-full xl:w-1/3 h-screen">
+    <main className="border-x w-full xl:w-1/3 min-h-screen">
       <TopNav pageTitle="Profile" session={session} />
       <ProfileHeader />
       <ProfilePostsContainer posts={demoPosts} />

@@ -36,7 +36,7 @@ export default async function ProfileHeader() {
         </div>
         <div className="flex items-start gap-3 ml-auto mt-5">
           <Link
-            href={"/"}
+            href={"/settings"}
             className="flex items-center gap-2 p-3.5 xs:px-6 xs:py-3.5  border rounded-full uppercase text-sm
              text-onlyfans-light-blue font-medium hover:text-onlyfans-blue hover:bg-sky-50
               hover:border-onlyfans-blue transition-colors duration-75"
