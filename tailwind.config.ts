@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const config: Config = {
   content: [
@@ -19,6 +20,10 @@ const config: Config = {
         "onlyfans-blue": "#0091ea",
         "onlyfans-light-blue": "#00aff0",
       },
+    },
+    screens: {
+      xs: "425px",
+      ...defaultTheme.screens,
     },
   },
   plugins: [require("tailwind-scrollbar")({ nocompatible: true })],

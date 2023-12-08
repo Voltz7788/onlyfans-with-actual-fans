@@ -6,8 +6,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/prisma/prismaGlobal";
 import bcrypt from "bcryptjs";
-import { generateFromEmail, generateUsername } from "unique-username-generator";
+import { generateUsername } from "unique-username-generator";
 import { Adapter } from "next-auth/adapters";
+import _ from "lodash";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -78,7 +79,8 @@ export const authOptions: NextAuthOptions = {
         });
 
         const username = user?.username;
-        const newSession = { ...session, username };
+        const newUser = { ...user, username };
+        const newSession = { ...session, user: newUser };
         return newSession;
       }
       return session;
@@ -95,7 +97,10 @@ function CustomPrismaAdapter(p: typeof prisma) {
     ...PrismaAdapter(p),
     createUser: (data: any) => {
       const username = generateUsername();
-      return p.user.create({ data: { ...data, username } });
+      const capitalisedName = _.startCase(_.toLower(data.name));
+      return p.user.create({
+        data: { ...data, name: capitalisedName, username },
+      });
     },
   };
 }

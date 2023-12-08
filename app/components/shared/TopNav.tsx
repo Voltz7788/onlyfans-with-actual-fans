@@ -6,7 +6,7 @@ import type { Session } from "next-auth";
 
 type TopNavProps = {
   pageTitle: string;
-  session: Session;
+  session?: Session;
 };
 
 export default function TopNav({ pageTitle, session }: TopNavProps) {
@@ -38,10 +38,10 @@ export default function TopNav({ pageTitle, session }: TopNavProps) {
         )}
         <h1
           className={`text-lg ${
-            pageTitle === "Profile" ? "text-white" : "uppercase"
+            pageTitle === "Profile" ? "text-white capitalize" : "uppercase"
           }`}
         >
-          {pageTitle === "Profile" ? session.user?.name : pageTitle}
+          {pageTitle === "Profile" ? session!.user?.name : pageTitle}
         </h1>
       </div>
     </nav>

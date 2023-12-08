@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { IconContext } from "react-icons";
@@ -6,7 +7,8 @@ import { AiOutlineHome } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { PiFan } from "react-icons/pi";
 import { FiPlusSquare } from "react-icons/fi";
-import MoreOptionsModal from "./MoreOptionsModal";
+import { useDispatch } from "react-redux";
+import { toggle, setToFalse } from "@/app/redux/slideNavbarSlice";
 
 type NavProps = {
   linkStyles: string;
@@ -19,12 +21,23 @@ export default function MobileNav({
   profilePic,
   pathname,
 }: NavProps) {
+  const dispatch = useDispatch();
+
+  const handleToggle = () => {
+    dispatch(toggle());
+  };
+
+  const handleClose = () => {
+    dispatch(setToFalse());
+  };
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-30 sm:hidden text-lg w-full px-6 pt-1 pb-4 border-t bg-white">
       <IconContext.Provider value={{ className: "text-3xl -mt-0.5" }}>
         <div className="max-w-md flex justify-between items-end mx-auto gap-1">
           <Link
             href={"/"}
+            onClick={handleClose}
             className={`${
               pathname === "/"
                 ? "text-onlyfans-black"
@@ -36,6 +49,7 @@ export default function MobileNav({
           </Link>
           <Link
             href={"/subscriptions"}
+            onClick={handleClose}
             className={`${
               pathname === "/subscriptions"
                 ? "text-onlyfans-black"
@@ -60,6 +74,7 @@ export default function MobileNav({
           ) : (
             <Link
               href={`${pathname === "/create-post" ? "" : "/create-post"}`}
+              onClick={handleClose}
               className={`${
                 pathname === "/create-post"
                   ? "text-onlyfans-black"
@@ -72,6 +87,7 @@ export default function MobileNav({
           )}
           <Link
             href={"/messages"}
+            onClick={handleClose}
             className={`${
               pathname === "/messages"
                 ? "text-onlyfans-black"
@@ -81,8 +97,9 @@ export default function MobileNav({
           >
             <BiMessageDetail />
           </Link>
-          {/* <Link
-            href={"/profile"}
+
+          <button
+            onClick={handleToggle}
             className="max-w-[250px] xl:w-full rounded-full focus:outline-onlyfans-blue text-base flex items-center gap-4 p-2 -mb-0.5"
             aria-label="My Profile"
           >
@@ -94,8 +111,8 @@ export default function MobileNav({
               alt="Your profile picture"
               className="w-9 rounded-full"
             />
-          </Link> */}
-          <MoreOptionsModal profilePic={profilePic} />
+          </button>
+          {/* <MoreOptionsModal profilePic={profilePic} /> */}
         </div>
       </IconContext.Provider>
     </nav>

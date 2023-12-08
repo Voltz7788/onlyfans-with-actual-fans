@@ -7,6 +7,7 @@ import { auth } from "../utilities/getServerSessionHelper";
 import { redirect } from "next/navigation";
 import defaultAvatar from "../../public/defaultAvatar.png";
 import { CustomSession } from "@/@types/types";
+import GrayBar from "../components/shared/aesthetic/GrayBar";
 
 export default async function Home() {
   const session = (await auth()) as CustomSession;
@@ -25,11 +26,11 @@ export default async function Home() {
       >
         <CreatePost />
       </Link>
-      <div className="bg-gray-100 h-1.5 w-full"></div>
+      <GrayBar />
       <Post>
         <Post.Header
           name={session.user?.name as string}
-          username={`@${session.username}`}
+          username={`@${session.user?.username}`}
           timePosted={"2 hours ago"}
           profilePic={session.user?.image || defaultAvatar}
         />
@@ -41,7 +42,7 @@ export default async function Home() {
       <Post>
         <Post.Header
           name={session.user?.name as string}
-          username={`@${session.username}`}
+          username={`@${session.user?.username}`}
           timePosted={"2 hours ago"}
           profilePic={session.user?.image || defaultAvatar}
         />
