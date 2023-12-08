@@ -6,6 +6,7 @@ import Link from "next/link";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiShare } from "react-icons/pi";
 import GrayBar from "../shared/aesthetic/GrayBar";
+import defaultAvatar from "../../../public/defaultAvatar.png";
 
 export default async function ProfileHeader() {
   const session: CustomSession = await auth();
@@ -17,12 +18,12 @@ export default async function ProfileHeader() {
       <div className="flex px-6 pb-10 border-b">
         <div className="">
           <Image
-            src={session?.user?.image as string}
+            src={session?.user?.image || defaultAvatar}
             alt="Profile picture"
             width={100}
             height={100}
             unoptimized
-            className="rounded-full border-2 border-white -mt-14"
+            className="rounded-full border-2 border-white -mt-14 bg-white"
           />
           <p className="mt-3 font-medium text-lg">{session?.user?.name}</p>
           <p className="text-sm text-onlyfans-light-gray">
