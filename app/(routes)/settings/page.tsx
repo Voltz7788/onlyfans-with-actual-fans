@@ -1,3 +1,7 @@
+import {
+  ChangePasswordForm,
+  EditProfileForm,
+} from "@/app/components/settings-page/SettingsForm";
 import SettingsHeader from "@/app/components/settings-page/SettingsHeader";
 import TopNav from "@/app/components/shared/TopNav";
 import { auth } from "@/app/utilities/getServerSessionHelper";
@@ -13,6 +17,8 @@ export default async function SettingsPage() {
     <main className="relative border-x w-full xl:w-1/3 min-h-screen overflow-">
       <TopNav pageTitle="Settings" />
       <SettingsHeader />
+      <EditProfileForm />
+      <ChangePasswordForm />
     </main>
   );
 }
