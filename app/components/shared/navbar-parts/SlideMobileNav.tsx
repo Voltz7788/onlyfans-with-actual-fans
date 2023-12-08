@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
-
+import Link from "next/link";
+import { signOut } from "next-auth/react";
 import { RootState } from "@/app/redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { toggle, setToFalse, setToTrue } from "@/app/redux/slideNavbarSlice";
 import { MdClose } from "react-icons/md";
 import { LuDot } from "react-icons/lu";
-import Link from "next/link";
+import { BsBookmarkStar } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { IoSettingsOutline } from "react-icons/io5";
+import { TbLogout2 } from "react-icons/tb";
+import { PulseLoader } from "react-spinners";
 
 type SlideNavProps = {
   profilePic: string | StaticImageData;
@@ -19,8 +24,9 @@ export default function SlideMobileNav({
   name,
   username,
 }: SlideNavProps) {
-  const isOpen = useSelector((state: RootState) => state.slideNavbar.isOpen);
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
+  const isOpen = useSelector((state: RootState) => state.slideNavbar.isOpen);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +34,9 @@ export default function SlideMobileNav({
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
+
     window.removeEventListener("resize", handleResize);
+
     if (screenWidth > 640) {
       dispatch(setToFalse());
     }
@@ -38,6 +46,15 @@ export default function SlideMobileNav({
 
   const handleClick = () => {
     dispatch(toggle());
+  };
+
+  const handleClose = () => {
+    dispatch(setToFalse());
+  };
+
+  const handleSignOut = () => {
+    setIsSigningOut(true);
+    signOut();
   };
 
   return (
@@ -53,7 +70,7 @@ export default function SlideMobileNav({
 
       {/* Navigation */}
       <div
-        className={`fixed h-screen w-60 bg-white top-0 right-0 z-10 transition-transform duration-200 ${
+        className={`fixed h-screen w-64 bg-white top-0 right-0 z-10 transition-transform duration-200 ${
           isOpen ? "" : "translate-x-96"
         }`}
       >
@@ -83,10 +100,51 @@ export default function SlideMobileNav({
           </div>
         </div>
 
-        <div>
-          <Link href={"/profile"}></Link>
-          <Link href={"/collections"}></Link>
-          <Link href={"/settings"}></Link>
+        <div className="flex flex-col gap-6 text-sm p-5 border-b">
+          <Link
+            href={"/profile"}
+            onClick={handleClose}
+            className="flex items-center gap-2 font-medium"
+          >
+            <CgProfile className="text-xl" />
+            <p>My profile</p>
+          </Link>
+          <Link
+            href={"/collections"}
+            onClick={handleClose}
+            className="flex items-center gap-2 font-medium"
+          >
+            <BsBookmarkStar className="text-xl" />
+            <p>Collections</p>
+          </Link>
+          <Link
+            href={"/settings"}
+            onClick={handleClose}
+            className="flex items-center gap-2 font-medium"
+          >
+            <IoSettingsOutline className="text-xl" />
+            <p>Settings</p>
+          </Link>
+        </div>
+        <div className="px-3 py-5">
+          <button
+            onClick={handleSignOut}
+            className={`flex items-center max-w-[140px] gap-2 text-white font-semibold w-full text-sm px-3 rounded-full h-8 transition-colors duration-100 ${
+              isSigningOut
+                ? "bg-onlyfans-blue"
+                : "bg-onlyfans-light-blue hover:bg-onlyfans-blue"
+            }`}
+          >
+            <TbLogout2 className="text-lg" />
+            {isSigningOut ? <p>Loading</p> : <p>Sign Out</p>}
+
+            <PulseLoader
+              color="#ffffff"
+              size={3}
+              loading={isSigningOut}
+              className="ml-auto"
+            />
+          </button>
         </div>
       </div>
     </div>
