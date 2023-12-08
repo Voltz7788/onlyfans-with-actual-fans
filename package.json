@@ -17,6 +17,7 @@
     "antd": "^5.12.1",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
+    "debounce": "^2.0.0",
     "email-validator": "^2.0.4",
     "lodash": "^4.17.21",
     "next": "14.0.3",

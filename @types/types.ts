@@ -6,8 +6,8 @@ export type CustomSession = {
 } | null;
 
 type CustomUser = {
-  name?: string | null;
-  email?: string | null;
+  name: string;
+  email: string;
   image?: string | null;
-  username?: string | null;
+  username: string;
 };

@@ -3,6 +3,7 @@ import Image, { StaticImageData } from "next/image";
 import { Modal } from "antd";
 import { signOut } from "next-auth/react";
 import { TbLogout2 } from "react-icons/tb";
+import { MdClose } from "react-icons/md";
 import { PulseLoader } from "react-spinners";
 
 type ModalProps = {
@@ -53,6 +54,7 @@ export default function MoreOptionsModal({ profilePic }: ModalProps) {
         okButtonProps={{ className: "hidden" }}
         onCancel={handleCancel}
         cancelButtonProps={{ className: "hidden" }}
+        closeIcon={<MdClose className="-mt-0.5 text-gray-500" />}
         cancelText="Close"
         className="max-w-[240px]"
       >

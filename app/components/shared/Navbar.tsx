@@ -8,9 +8,10 @@ import { Session } from "next-auth";
 import SlideMobileNav from "./navbar-parts/SlideMobileNav";
 import { store } from "../../redux/store";
 import { Provider } from "react-redux";
+import { CustomSession } from "@/@types/types";
 
 type NavbarProps = {
-  session: Session | null;
+  session: CustomSession;
 };
 
 export default function Navbar({ session }: NavbarProps) {
@@ -31,7 +32,11 @@ export default function Navbar({ session }: NavbarProps) {
         profilePic={session?.user?.image || defaultAvatar}
         pathname={pathname}
       />
-      <SlideMobileNav profilePic={session?.user?.image || defaultAvatar} />
+      <SlideMobileNav
+        profilePic={session?.user?.image || defaultAvatar}
+        name={session?.user?.name!}
+        username={session?.user?.username!}
+      />
     </Provider>
   );
 }
