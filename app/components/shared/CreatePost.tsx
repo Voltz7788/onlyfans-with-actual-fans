@@ -7,13 +7,20 @@ import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea
 import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
-import { useDispatch } from "react-redux";
-import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearFilesToBeUploaded,
+  toggle,
+} from "@/app/libs/redux/uploadMediaModalSlice";
+import { RootState } from "@/app/libs/redux/store";
 
 export default function CreatePost({ session }: { session: Session }) {
+  const filesToBeUploaded = useSelector(
+    (state: RootState) => state.uploadMediaModal.filesToBeUploaded
+  );
   const dispatch = useDispatch();
 
-  const [post, setPost] = useState({ text: "", image: "", video: "" });
+  const [post, setPost] = useState({ text: "", video: "" });
   const pathname = usePathname();
 
   const router = useRouter();
@@ -23,11 +30,17 @@ export default function CreatePost({ session }: { session: Session }) {
 
   const handleSubmitPost = async (e: FormEvent) => {
     e.preventDefault();
+
     const formData = new FormData();
+
     formData.append("text", post.text);
-    formData.append("image", post.image);
     formData.append("video", post.video);
+    filesToBeUploaded.forEach((file: File, index) => {
+      formData.append("image", file);
+    });
     formData.append("userEmail", session?.user?.email as string);
+
+    dispatch(clearFilesToBeUploaded());
 
     try {
       const res = await fetch("/api/post/create", {

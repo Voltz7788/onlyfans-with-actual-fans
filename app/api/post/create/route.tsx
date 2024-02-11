@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
 
   const postData = {
     text: data.get("text") as string,
-    image: data.get("image") as string,
+    images: data.getAll("image"),
     video: data.get("video") as string,
   };
 
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const newPost = await prisma?.post.create({
+  await prisma?.post.create({
     data: {
       userId: user.id,
       text: postData.text,
