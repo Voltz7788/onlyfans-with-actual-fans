@@ -15,7 +15,7 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const { posts, user } = await getPosts(session?.user?.email!);
+  const { posts } = await getPosts(session?.user?.email!);
 
   return (
     <main className="relative border-x w-full xl:w-1/3 min-h-screen overflow-">
@@ -27,7 +27,7 @@ export default async function Home() {
         <CreatePost session={session} />
       </Link>
       <GrayBar />
-      <PostList posts={posts} user={user!} />
+      <PostList posts={posts} />
     </main>
   );
 }
