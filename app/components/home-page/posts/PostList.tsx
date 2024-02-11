@@ -1,5 +1,4 @@
 import Post from "./Post";
-import type { User as UserType } from "@prisma/client";
 import defaultAvatar from "../../../../public/defaultAvatar.png";
 import { auth } from "@/app/utilities/getServerSessionHelper";
 
@@ -36,7 +35,13 @@ export default async function PostList({ posts }: PostListProps) {
             timePosted={post.timePosted.toString()}
             profilePic={post.User?.image || defaultAvatar}
           />
-          <Post.Text postText={post.text} />
+          <Post.Text
+            postText={post.text}
+            postedByCurrentUser={
+              post.User?.email === session?.user?.email ? true : false
+            }
+            postId={post.id}
+          />
           <Post.Image />
           <Post.Video />
           <Post.Buttons

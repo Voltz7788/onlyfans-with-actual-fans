@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect, useOptimistic } from "react";
+import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea";
 import Image, { StaticImageData } from "next/image";
 import {
   FaRegHeart,
@@ -11,6 +12,9 @@ import {
 import { AiOutlineDollar } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { Modal } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { toggle } from "@/app/libs/redux/postButtonsSlice";
+import { RootState } from "../../../libs/redux/store";
 
 type PostHeaderProps = {
   name: string;
@@ -44,8 +48,93 @@ export const PostHeader = ({
   );
 };
 
-export const PostText = ({ postText }: { postText: string }) => {
-  return <p className="mt-4 text-onlyfans-black leading-[26px]">{postText}</p>;
+type PostTextProps = {
+  postText: string;
+  postedByCurrentUser: boolean;
+  postId: string;
+};
+
+export const PostText = ({
+  postText,
+  postedByCurrentUser,
+  postId,
+}: PostTextProps) => {
+  const updateActive = useSelector(
+    (state: RootState) => state.postButtons.updateActive
+  );
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [newPostText, setNewPostText] = useState(postText);
+  const [optimisticText, addOptimisitcText] = useOptimistic(
+    newPostText,
+    (text: string) => text
+  );
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutoSizeTextArea(textAreaRef.current, newPostText);
+
+  useEffect(() => {
+    textAreaRef.current?.setSelectionRange(
+      newPostText.length,
+      newPostText.length
+    );
+    textAreaRef.current?.focus();
+  }, [newPostText, updateActive]);
+
+  const handleUpdatePost = async () => {
+    const formData = new FormData();
+    formData.append("postId", postId);
+    formData.append("updatedText", newPostText);
+    addOptimisitcText(newPostText);
+    dispatch(toggle());
+    try {
+      const res = await fetch("/api/post/update", {
+        method: "post",
+        body: formData,
+      });
+
+      if (res.ok) {
+        // dispatch(toggle());
+        // router.refresh();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <>
+      {updateActive && postedByCurrentUser ? (
+        <form>
+          <textarea
+            ref={textAreaRef}
+            id="postText"
+            name="postText"
+            placeholder="Edit post..."
+            onChange={(e) => setNewPostText(e.target.value)}
+            value={newPostText}
+            className="border p-1.5 rounded mt-4 focus:placeholder-gray-300 outline-none caret-onlyfans-blue text-onlyfans-black w-full 
+            resize-none max-h-52 scrollbar scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 scrollbar-w-1"
+            aria-label="Edit post"
+            rows={1}
+          />
+          <div className="flex w-full">
+            <button
+              onClick={handleUpdatePost}
+              className="mt-1.5 ml-auto uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-semibold text-white mr-4 px-5 py-2 text-sm rounded-full"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+      ) : (
+        <p className="mt-4 text-onlyfans-black leading-[26px]">
+          {optimisticText}
+        </p>
+      )}
+    </>
+  );
 };
 
 export const PostImage = ({ image }: { image?: StaticImageData }) => {
@@ -70,6 +159,7 @@ export const PostButtons = ({
   postId,
 }: PostButtonsProps) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -111,9 +201,15 @@ export const PostButtons = ({
         </button>
         {postedByCurrentUser ? (
           <div className="flex ml-auto gap-4">
-            <button className="text-onlyfans-light-gray flex gap-2 items-center hover:text-gray-500 active:text-gray-600 transition-all">
+            {/* Update Button */}
+            <button
+              onClick={() => dispatch(toggle())}
+              className="text-onlyfans-light-gray flex gap-2 items-center hover:text-gray-500 active:text-gray-600 transition-all"
+            >
               <FaPencil className="text-lg" />
             </button>
+
+            {/* Delete Button */}
             <button
               onClick={() => setIsOpen(true)}
               className="text-onlyfans-light-gray flex gap-2 items-center hover:text-gray-500 active:text-gray-600 transition-all"

@@ -4,12 +4,18 @@ import prisma from "@/prisma/prismaGlobal";
 export async function POST(request: NextRequest) {
   const data = await request.formData();
 
-  const postId = data.get("postId") as string;
+  const post = {
+    id: data.get("postId") as string,
+    updatedText: data.get("updatedText") as string,
+  };
 
-  await prisma.post.delete({ where: { id: postId } });
+  await prisma.post.update({
+    where: { id: post.id },
+    data: { text: post.updatedText },
+  });
 
   return new NextResponse(null, {
     status: 200,
-    statusText: "Post deleted",
+    statusText: "Post updated",
   });
 }
