@@ -58,7 +58,7 @@ model Post {
   id         String   @id @default(cuid())
   timePosted DateTime @default(now())
   text       String
-  image      String?
+  images     String[]
   video      String?
   numOfLikes Int
   User       User?    @relation(fields: [userId], references: [id])

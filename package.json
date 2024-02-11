@@ -34,7 +34,8 @@
     "react-redux": "^9.0.2",
     "react-spinners": "^0.13.8",
     "react-tooltip": "^5.24.0",
-    "unique-username-generator": "^1.2.0"
+    "unique-username-generator": "^1.2.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.5",
@@ -49,6 +50,7 @@
     "@types/react-copy-to-clipboard": "^5.0.7",
     "@types/react-dom": "^18",
     "@types/react-google-recaptcha": "^2.1.8",
+    "@types/uuid": "^9.0.8",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",

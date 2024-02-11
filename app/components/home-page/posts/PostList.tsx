@@ -16,7 +16,7 @@ type PostListProps = {
       password: string | null;
     } | null;
     text: string;
-    image: string | null;
+    images: string[] | null;
     video: string | null;
     numOfLikes: number;
     userId: string | null;
