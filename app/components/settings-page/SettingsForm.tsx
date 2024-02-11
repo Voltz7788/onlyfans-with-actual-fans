@@ -7,31 +7,37 @@ import {
 import {
   labelStylingChecker,
   inputStyleChecker,
+  showWarningChecker,
 } from "@/app/utilities/form-utilities/formConditionalStyling";
+import { IoWarningOutline } from "react-icons/io5";
+import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
 
-export function EditProfileForm() {
+export function SettingsForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [updatedData, setUpdatedData] = useState({
     username: "",
     name: "",
-    bio: "",
-    location: "",
+    password: "",
+    confirmPass: "",
   });
 
   const [focused, setFocused] = useState({
     username: false,
     name: false,
-    bio: false,
-    location: false,
+    password: false,
+    confirmPass: false,
   });
 
   const [invalidData, setInvalidData] = useState({
     username: false,
     name: false,
-    bio: false,
-    location: false,
+    password: false,
+    confirmPass: false,
   });
+
+  const [passVisible, setPassVisible] = useState(false);
 
   const updateUserInfo = async (e: FormEvent) => {};
 
@@ -86,7 +92,7 @@ export function EditProfileForm() {
       </div>
 
       {/* Name */}
-      <div className="h-16 mt-4 px-4">
+      <div className="h-16 mt-4 px-4 border-b">
         <div className="relative h-12 transition-all">
           <label
             htmlFor="name"
@@ -129,87 +135,133 @@ export function EditProfileForm() {
         </div>
       </div>
 
-      {/* Bio */}
+      {/* Password */}
       <div className="h-16 mt-4 px-4">
         <div className="relative h-12 transition-all">
           <label
-            htmlFor="bio"
+            htmlFor="password"
             className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
               {
-                focused: focused.bio,
-                invalid: invalidData.bio,
-                value: updatedData.bio,
+                focused: focused.password,
+                invalid: invalidData.password,
+                value: updatedData.password,
               }
             )} cursor-text select-none`}
           >
-            Bio
+            Password
           </label>
           <input
-            type="text"
-            name="bio"
-            id="bio"
-            aria-label="bio"
-            autoComplete="bio"
+            type={passVisible ? "text" : "password"}
+            name="password"
+            id="password"
+            aria-label="password"
+            autoComplete="password"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
-                focused: focused.bio,
-                invalid: invalidData.bio,
-                value: updatedData.bio,
+                focused: focused.password,
+                invalid: invalidData.password,
+                value: updatedData.password,
               }
             )}`}
-            value={updatedData.bio}
+            value={updatedData.password}
             onChange={(e) => {
-              setUpdatedData({ ...updatedData, bio: e.target.value });
+              setUpdatedData({ ...updatedData, password: e.target.value });
               setInvalidData({
                 ...invalidData,
-                bio: isNameInvalid(e.target.value),
+                password: isPasswordSignupValid(e.target.value),
               });
             }}
-            onFocus={() => setFocused({ ...focused, bio: true })}
-            onBlur={() => setFocused({ ...focused, bio: false })}
+            onFocus={() => setFocused({ ...focused, password: true })}
+            onBlur={() => setFocused({ ...focused, password: false })}
           />
+          <div className="absolute flex gap-2 top-1/4 right-4 text-2xl">
+            <button
+              type="button"
+              className="text-onlyfans-light-gray text-3xl -mt-0.5 hover:text-onlyfans-light-blue transition-colors duration-75 rounded-full hover:bg-sky-50"
+              onClick={(e) => setPassVisible(!passVisible)}
+            >
+              {passVisible ? (
+                <AiOutlineEyeInvisible className="p-0.5" />
+              ) : (
+                <AiOutlineEye className="p-0.5" />
+              )}
+            </button>
+            <IoWarningOutline
+              className={`text-red-400  ${
+                showWarningChecker({
+                  focused: focused.password,
+                  invalid: invalidData.password,
+                })
+                  ? "block"
+                  : "hidden"
+              }`}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Location */}
-      <div className="h-16 mt-4 px-4 bor\der-b">
+      {/* ConfirmPass */}
+      <div className="h-16 mt-4 px-4">
         <div className="relative h-12 transition-all">
           <label
-            htmlFor="location"
+            htmlFor="confirmPass"
             className={`absolute text-center transition-all duration-75 w-fit px-0.5 bg-white ml-4 ${labelStylingChecker(
               {
-                focused: focused.location,
-                invalid: invalidData.location,
-                value: updatedData.location,
+                focused: focused.confirmPass,
+                invalid: invalidData.confirmPass,
+                value: updatedData.confirmPass,
               }
             )} cursor-text select-none`}
           >
-            Location
+            Confirm Password
           </label>
           <input
-            type="text"
-            name="location"
-            id="location"
-            aria-label="location"
-            autoComplete="location"
+            type={passVisible ? "text" : "password"}
+            name="confirmPass"
+            id="confirmPass"
+            aria-label="confirmPass"
+            autoComplete="confirmPass"
             className={`border h-12 pl-3 pr-12 focus:pr-3 rounded-md bg-white w-full focus:outline-none outline-none transition-colors duration-75 ${inputStyleChecker(
               {
-                focused: focused.location,
-                invalid: invalidData.location,
-                value: updatedData.location,
+                focused: focused.confirmPass,
+                invalid: invalidData.confirmPass,
+                value: updatedData.confirmPass,
               }
             )}`}
-            value={updatedData.location}
+            value={updatedData.confirmPass}
             onChange={(e) => {
-              setUpdatedData({ ...updatedData, location: e.target.value });
+              setUpdatedData({ ...updatedData, confirmPass: e.target.value });
               setInvalidData({
                 ...invalidData,
-                location: isNameInvalid(e.target.value),
+                confirmPass: isPasswordSignupValid(e.target.value),
               });
             }}
-            onFocus={() => setFocused({ ...focused, location: true })}
-            onBlur={() => setFocused({ ...focused, location: false })}
+            onFocus={() => setFocused({ ...focused, confirmPass: true })}
+            onBlur={() => setFocused({ ...focused, confirmPass: false })}
           />
+          <div className="absolute flex gap-2 top-1/4 right-4 text-2xl">
+            <button
+              type="button"
+              className="text-onlyfans-light-gray text-3xl -mt-0.5 hover:text-onlyfans-light-blue transition-colors duration-75 rounded-full hover:bg-sky-50"
+              onClick={(e) => setPassVisible(!passVisible)}
+            >
+              {passVisible ? (
+                <AiOutlineEyeInvisible className="p-0.5" />
+              ) : (
+                <AiOutlineEye className="p-0.5" />
+              )}
+            </button>
+            <IoWarningOutline
+              className={`text-red-400  ${
+                showWarningChecker({
+                  focused: focused.password,
+                  invalid: invalidData.password,
+                })
+                  ? "block"
+                  : "hidden"
+              }`}
+            />
+          </div>
         </div>
       </div>
     </form>
