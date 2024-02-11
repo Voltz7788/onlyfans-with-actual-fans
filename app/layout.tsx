@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { ReduxProvider } from "./libs/redux/ReduxProvider";
 import "react-tooltip/dist/react-tooltip.css";
 import "./globals.css";
 
@@ -21,7 +22,9 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <ReduxProvider>{children}</ReduxProvider>
+      </body>
     </html>
   );
 }

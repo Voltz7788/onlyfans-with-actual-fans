@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Tooltip } from "react-tooltip";
@@ -25,7 +25,7 @@ export default function CreatePost({ session }: { session: Session }) {
     formData.append("userEmail", session?.user?.email as string);
 
     try {
-      const res = await fetch("/api/create-post", {
+      const res = await fetch("/api/post/create", {
         method: "post",
         body: formData,
       });
