@@ -1,8 +1,19 @@
 import Post from "./Post";
-import type { Post as PostType, User as UserType } from "@prisma/client";
+import type { User as UserType } from "@prisma/client";
+
+type FormattedPosts = {
+  id: string;
+  timePosted: string;
+
+  text: string;
+  image: string | null;
+  video: string | null;
+  numOfLikes: number;
+  userId: string | null;
+};
 
 type PostListProps = {
-  posts: PostType[];
+  posts: FormattedPosts[];
   user: UserType;
 };
 

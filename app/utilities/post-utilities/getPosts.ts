@@ -1,4 +1,5 @@
 import prisma from "@/prisma/prismaGlobal";
+import { getPostDate } from "./getPostDate";
 
 export async function getPosts(userEmail: string) {
   const user = await prisma.user.findUnique({ where: { email: userEmail } });
@@ -7,5 +8,10 @@ export async function getPosts(userEmail: string) {
     await prisma.post.findMany({ where: { userId: user?.id } })
   ).reverse();
 
-  return { posts, user };
+  const formattedPosts = posts.map((post) => ({
+    ...post,
+    timePosted: getPostDate(post.timePosted),
+  }));
+
+  return { formattedPosts, user };
 }

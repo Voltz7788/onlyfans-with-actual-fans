@@ -30,9 +30,7 @@ export const PostHeader = ({
         <p>{name}</p>
         <p className="text-sm text-onlyfans-light-gray">{username}</p>
       </div>
-      <p className="text-sm text-onlyfans-light-gray mr-5 ml-auto">
-        {timePosted}
-      </p>
+      <p className="text-sm text-onlyfans-light-gray ml-auto">{timePosted}</p>
     </div>
   );
 };
