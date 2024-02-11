@@ -27,7 +27,7 @@ export default async function Home() {
         <CreatePost />
       </Link>
       <GrayBar />
-      <Post>
+      {/* <Post>
         <Post.Header
           name={session.user?.name as string}
           username={`@${session.user?.username}`}
@@ -50,7 +50,7 @@ export default async function Home() {
         <Post.Image />
         <Post.Video />
         <Post.Buttons numOfLikes={125} />
-      </Post>
+      </Post> */}
     </main>
   );
 }

@@ -40,6 +40,18 @@ model User {
   image         String?
   password      String?
   accounts      Account[]
+  posts         Post[]
+}
+
+model Post {
+  id         String   @id @default(cuid())
+  timePosted DateTime @default(now())
+  text       String
+  image      String?
+  video      String?
+  numOfLikes Int
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
 }
 
 model VerificationToken {

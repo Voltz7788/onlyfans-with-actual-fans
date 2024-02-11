@@ -1,7 +1,4 @@
-import {
-  ChangePasswordForm,
-  SettingsForm,
-} from "@/app/components/settings-page/SettingsForm";
+import { SettingsForm } from "@/app/components/settings-page/SettingsForm";
 import SettingsHeader from "@/app/components/settings-page/SettingsHeader";
 import TopNav from "@/app/components/shared/TopNav";
 import { auth } from "@/app/utilities/getServerSessionHelper";
@@ -18,7 +15,6 @@ export default async function SettingsPage() {
       <TopNav pageTitle="Settings" />
       <SettingsHeader />
       <SettingsForm />
-      {/* <ChangePasswordForm /> */}
     </main>
   );
 }
