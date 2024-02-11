@@ -6,7 +6,7 @@ import DesktopNav from "./navbar-parts/DesktopNav";
 import MobileNav from "./navbar-parts/MobileNav";
 import { Session } from "next-auth";
 import SlideMobileNav from "./navbar-parts/SlideMobileNav";
-import { store } from "../../redux/store";
+import { store } from "@/app/libs/redux/store";
 import { Provider } from "react-redux";
 import { CustomSession } from "@/@types/types";
 

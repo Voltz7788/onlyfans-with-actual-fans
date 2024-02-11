@@ -8,7 +8,7 @@ import { BiMessageDetail } from "react-icons/bi";
 import { PiFan } from "react-icons/pi";
 import { FiPlusSquare } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { toggle, setToFalse } from "@/app/redux/slideNavbarSlice";
+import { toggle, setToFalse } from "@/app/libs/redux/slideNavbarSlice";
 
 type NavProps = {
   linkStyles: string;
