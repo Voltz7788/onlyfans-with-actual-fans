@@ -41,6 +41,17 @@ model User {
   password      String?
   accounts      Account[]
   posts         Post[]
+  followedBy    Follows[] @relation("followedBy")
+  following     Follows[] @relation("following")
+}
+
+model Follows {
+  followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
+  followedById String
+  following    User   @relation("following", fields: [followingId], references: [id])
+  followingId  String
+
+  @@id([followingId, followedById])
 }
 
 model Post {

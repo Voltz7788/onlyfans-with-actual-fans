@@ -15,7 +15,7 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const { formattedPosts: posts, user } = await getPosts(session?.user?.email!);
+  const { posts, user } = await getPosts(session?.user?.email!);
 
   return (
     <main className="relative border-x w-full xl:w-1/3 min-h-screen overflow-">

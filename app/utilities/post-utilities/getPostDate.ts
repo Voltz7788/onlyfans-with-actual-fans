@@ -4,6 +4,7 @@ import {
   differenceInMinutes,
   differenceInSeconds,
   intlFormat,
+  isYesterday,
 } from "date-fns";
 
 export function getPostDate(timePosted: Date) {
@@ -28,6 +29,10 @@ export function getPostDate(timePosted: Date) {
 
   if (hoursDifference < 24) {
     return `${hoursDifference} hour${hoursDifference === 1 ? "" : "s"} ago`;
+  }
+
+  if (isYesterday(timePosted)) {
+    return `Yesterday`;
   }
 
   if (daysDifference < 7) {
