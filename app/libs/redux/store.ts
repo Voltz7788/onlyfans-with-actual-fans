@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import slideNavbarReducer from "../redux/slideNavbarSlice";
 import postButtonsReducer from "../redux/postButtonsSlice";
+import uploadMediaModalReducer from "../redux/uploadMediaModalSlice";
 
 export const store = configureStore({
   reducer: {
     slideNavbar: slideNavbarReducer,
     postButtons: postButtonsReducer,
+    uploadMediaModal: uploadMediaModalReducer,
   },
 });
 

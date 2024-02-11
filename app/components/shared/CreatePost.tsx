@@ -6,8 +6,13 @@ import { Tooltip } from "react-tooltip";
 import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea";
 import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
+import DropzoneModal from "./DropzoneModal";
+import { useDispatch } from "react-redux";
+import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
 
 export default function CreatePost({ session }: { session: Session }) {
+  const dispatch = useDispatch();
+
   const [post, setPost] = useState({ text: "", image: "", video: "" });
   const pathname = usePathname();
 
@@ -52,6 +57,7 @@ export default function CreatePost({ session }: { session: Session }) {
             placeholder="Compose new post..."
             onChange={(e) => setPost({ ...post, text: e.target.value })}
             value={post.text}
+            required
             autoFocus={pathname === "/create-post" ? true : false}
             className=" pr-4 focus:placeholder-gray-300 outline-none caret-onlyfans-blue text-onlyfans-black w-full 
             resize-none max-h-52 scrollbar scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 scrollbar-w-1"
@@ -59,6 +65,8 @@ export default function CreatePost({ session }: { session: Session }) {
           />
           <div className="flex items-center justify-between mt-5">
             <button
+              type="button"
+              onClick={() => dispatch(toggle())}
               className=""
               data-tooltip-id="imageUploadTooltip"
               data-tooltip-content={"Upload image"}
@@ -79,6 +87,7 @@ export default function CreatePost({ session }: { session: Session }) {
             )}
           </div>
         </form>
+        <DropzoneModal />
       </IconContext.Provider>
     </section>
   );
