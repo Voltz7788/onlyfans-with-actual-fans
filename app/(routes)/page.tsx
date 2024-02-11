@@ -8,9 +8,11 @@ import { redirect } from "next/navigation";
 import defaultAvatar from "../../public/defaultAvatar.png";
 import { CustomSession } from "@/@types/types";
 import GrayBar from "../components/shared/aesthetic/GrayBar";
+import { getPosts } from "../utilities/getPosts";
 
 export default async function Home() {
   const session = (await auth()) as CustomSession;
+  const { posts, user } = await getPosts(session?.user?.email!);
 
   if (!session) {
     redirect("/login");
@@ -24,9 +26,23 @@ export default async function Home() {
         href={"/create-post"}
         className="focus:outline-1 focus:outline-onlyfans-light-blue"
       >
-        <CreatePost />
+        <CreatePost session={session} />
       </Link>
       <GrayBar />
+      {posts.map((post) => (
+        <Post key={post.id}>
+          <Post.Header
+            name={user?.name!}
+            username={user?.username!}
+            timePosted={post.timePosted.toString()}
+            profilePic={user?.image!}
+          />
+          <Post.Text postText={post.text} />
+          <Post.Image />
+          <Post.Video />
+          <Post.Buttons isLiked={false} numOfLikes={post.numOfLikes} />
+        </Post>
+      ))}
       {/* <Post>
         <Post.Header
           name={session.user?.name as string}
