@@ -13,7 +13,7 @@ export default async function SettingsHeader() {
       <div className="bg-sky-100 h-44 -mt-16 z-10">
         <div className="w-full h-full bg-gradient-to-b from-gray-500 to-transparent"></div>
       </div>
-      <div className="flex px-6 pb-10">
+      <div className="flex px-6 pb-6">
         <div className="relative -mt-14 rounded-full">
           <Image
             src={session?.user?.image || defaultAvatar}
