@@ -34,8 +34,6 @@ export default function OAuthButtons() {
         redirect: false,
         callbackUrl: "/",
       });
-
-      console.log(response);
     } catch (err) {
       handleLoadingAnimation(provider, false);
       console.error(err);
