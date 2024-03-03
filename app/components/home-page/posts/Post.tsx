@@ -25,6 +25,7 @@ export default function Post({
 
   const { deleteIsOpen, setDeleteIsOpen, handleDeletePost } = useDeletePost({
     postId: post.id,
+    key: post.images![0],
     router,
   });
 

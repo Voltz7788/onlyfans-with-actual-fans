@@ -1,4 +1,9 @@
-import { S3, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import {
+  S3,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const s3Client = new S3({
@@ -42,4 +47,22 @@ async function generatePreSignedPutUrl(key: string) {
   return signedUrl;
 }
 
-export { generatePreSignedPutUrl, generatePresignedGetUrl };
+async function deleteObjectFromBucket(key: string) {
+  const s3Params = {
+    Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET || "onlyfans-with-actual-fans",
+    Key: key,
+  };
+
+  try {
+    const data = await s3Client.send(new DeleteObjectCommand(s3Params));
+    console.log("Success. Object deletted.", data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export {
+  generatePreSignedPutUrl,
+  generatePresignedGetUrl,
+  deleteObjectFromBucket,
+};
