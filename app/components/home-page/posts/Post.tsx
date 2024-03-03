@@ -13,12 +13,8 @@ import defaultAvatar from "../../../../public/defaultAvatar.png";
 import { useDispatch } from "react-redux";
 import { Modal } from "antd";
 import { useState } from "react";
-
-type PostComponentProps = {
-  post: Post;
-  isLiked: boolean;
-  postedByCurrentUser: boolean;
-};
+import { PostComponentProps } from "@/@types/types";
+import { useRouter } from "next/navigation";
 
 export default function Post({
   post,
@@ -26,13 +22,32 @@ export default function Post({
   postedByCurrentUser,
 }: PostComponentProps) {
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const handleDeletePost = () => {};
+  const handleDeletePost = async () => {
+    const formData = new FormData();
+    formData.append("postId", post.id);
+
+    try {
+      const res = await fetch("/api/post/delete", {
+        method: "post",
+        body: formData,
+      });
+
+      if (res.ok) {
+        setDeleteIsOpen(false);
+        router.refresh();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const [deleteIsOpen, setDeleteIsOpen] = useState(false);
 
   return (
     <section key={post.id} className="p-4 border-b">
+      {/* Header */}
       <div className="flex items-center">
         <Image
           src={post.User?.image || defaultAvatar}
@@ -45,7 +60,7 @@ export default function Post({
         <div className="ml-3">
           <p>{post.User?.name}</p>
           <p className="text-sm text-onlyfans-light-gray">
-            {post.User?.username}
+            {`@${post.User?.username}`}
           </p>
         </div>
         <p className="text-sm text-onlyfans-light-gray ml-auto">

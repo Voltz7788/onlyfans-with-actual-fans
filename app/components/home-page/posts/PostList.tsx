@@ -1,7 +1,5 @@
 import Post from "./Post";
-import defaultAvatar from "../../../../public/defaultAvatar.png";
 import { auth } from "@/app/utilities/getServerSessionHelper";
-import Image from "next/image";
 import { PostListProps } from "@/@types/types";
 
 export default async function PostList({ posts }: PostListProps) {
@@ -37,7 +35,7 @@ export default async function PostList({ posts }: PostListProps) {
         <Post
           key={post.id}
           post={post}
-          isLiked={true}
+          isLiked={false}
           postedByCurrentUser={
             post.User?.email === session?.user?.email ? true : false
           }

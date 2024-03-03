@@ -51,3 +51,9 @@ export type Post = {
   numOfLikes: number;
   userId: string | null;
 };
+
+export type PostComponentProps = {
+  post: Post;
+  isLiked: boolean;
+  postedByCurrentUser: boolean;
+};
