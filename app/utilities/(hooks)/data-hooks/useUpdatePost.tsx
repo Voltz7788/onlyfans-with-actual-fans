@@ -20,17 +20,18 @@ export default function useUpdatePost({
   );
 
   const [updateActive, setUpdateActive] = useState(false);
+  const [textAreaVal, setTextAreaVal] = useState(newPostText);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   useAutoSizeTextArea(textAreaRef.current, newPostText);
 
-  useEffect(() => {
-    textAreaRef.current?.setSelectionRange(
-      newPostText.length,
-      newPostText.length
-    );
-    textAreaRef.current?.focus();
-  }, [newPostText]);
+  // useEffect(() => {
+  //   // textAreaRef.current?.setSelectionRange(
+  //   //   newPostText.length,
+  //   //   newPostText.length
+  //   // );
+  //   // textAreaRef.current?.focus();
+  // }, [newPostText]);
 
   const handleUpdatePost = async (e: FormEvent) => {
     e.preventDefault();
@@ -53,6 +54,11 @@ export default function useUpdatePost({
     }
   };
 
+  const updateTextAreaVal = (val: string) => {
+    setTextAreaVal(val);
+    setNewPostText(val);
+  };
+
   return {
     optimisticText,
     newPostText,
@@ -61,5 +67,7 @@ export default function useUpdatePost({
     handleUpdatePost,
     updateActive,
     setUpdateActive,
+    textAreaVal,
+    updateTextAreaVal,
   };
 }
