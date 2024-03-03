@@ -23,7 +23,6 @@ export default function Post({
   isLiked,
   postedByCurrentUser,
 }: PostComponentProps) {
-  // const dispatch = useDispatch();
   const router = useRouter();
 
   const { deleteIsOpen, setDeleteIsOpen, handleDeletePost } = useDeletePost({
@@ -96,7 +95,7 @@ export default function Post({
       )}
 
       {/* Image */}
-      {post.images === null || post.images?.length > 0 ? (
+      {/* {post.images === null || post.images?.length > 0 ? (
         <Image
           src={post.images![0]}
           alt=""
@@ -109,7 +108,7 @@ export default function Post({
         />
       ) : (
         <></>
-      )}
+      )} */}
 
       {/* Video */}
       {post.video ? <p>{post.video}</p> : <></>}
