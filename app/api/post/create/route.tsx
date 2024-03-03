@@ -22,7 +22,6 @@ export async function POST(request: NextRequest) {
       statusText: "No user",
     });
   }
-  // console.log(postData.image);
 
   const imageUrls =
     postData.image.length > 0 ? await uploadDataToS3(postData.image) : [];
