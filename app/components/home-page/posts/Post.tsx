@@ -65,6 +65,32 @@ export default function Post({
         </p>
       </div>
 
+      {/* Image */}
+      {post.images === null || post.images?.length > 0 ? (
+        <div className="relative w-full max-h-[600px] aspect-square h-full my-5 -z-10">
+          <Image
+            src={post.images![0]}
+            alt=""
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-full h-full object-cover absolute top-0 left-0 opacity-20"
+          />
+          <Image
+            src={post.images![0]}
+            alt=""
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="relative  w-full h-full object-contain backdrop-blur-xl"
+            placeholder="blur"
+            blurDataURL={post.images![0]}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
       {/* Post Text */}
       {updateActive && postedByCurrentUser ? (
         <form onSubmit={handleUpdatePost}>
@@ -90,22 +116,6 @@ export default function Post({
         <p className="mt-4 text-onlyfans-black leading-[26px]">
           {optimisticText}
         </p>
-      )}
-
-      {/* Image */}
-      {post.images === null || post.images?.length > 0 ? (
-        <Image
-          src={post.images![0]}
-          alt=""
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="w-full h-full"
-          placeholder="blur"
-          blurDataURL={post.images![0]}
-        />
-      ) : (
-        <></>
       )}
 
       {/* Video */}

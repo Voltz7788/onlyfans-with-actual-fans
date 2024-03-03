@@ -36,7 +36,7 @@
     "react-redux": "^9.0.2",
     "react-spinners": "^0.13.8",
     "react-tooltip": "^5.24.0",
-    "sharp": "^0.33.2",
+    "sharp": "^0.33.1",
     "unique-username-generator": "^1.2.0",
     "uuid": "^9.0.1"
   },
