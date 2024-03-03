@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prismaGlobal";
-import { S3, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
 
 export async function POST(request: NextRequest) {
@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
   const postData = {
     text: data.get("text") as string,
-    images: data.getAll("image") as File[],
+    image: data.getAll("image") as File[],
     video: data.get("video") as string,
   };
 
@@ -23,13 +23,16 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const imageKeys = await uploadDataToS3(postData.images);
+  const imageUrls =
+    postData.image.length > 0 ? await uploadDataToS3(postData.image) : [];
+  console.log(postData.image === null);
+  console.log(postData.image);
 
   await prisma?.post.create({
     data: {
       userId: user.id,
       text: postData.text,
-      images: imageKeys,
+      images: imageUrls,
       numOfLikes: 0,
     },
   });
@@ -41,25 +44,29 @@ export async function POST(request: NextRequest) {
 }
 
 async function uploadDataToS3(images: File[]) {
+  const region = process.env.NEXT_PUBLIC_AWS_REGION || "eu-north-1";
+  console.log("wrong");
   const s3Client = new S3({
-    region: process.env.NEXT_PUBLIC_AWS_REGION || "eu-north-1",
+    region,
   });
   const bucket =
     process.env.NEXT_PUBLIC_AWS_BUCKET || "onlyfans-with-actual-fans";
 
-  const imageKeys: string[] = [];
+  const imageUrls: string[] = [];
 
-  images.forEach(async (image: File) => {
-    const key = `${uuidv4()}-${image.name}`;
-    imageKeys.push(key);
-    const formattedImage = Buffer.from(await image.arrayBuffer());
-    await s3Client.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: key,
-        Body: formattedImage,
-      })
-    );
-  });
-  return imageKeys;
+  const key = `${uuidv4()}-${images[0].name.replace(/\s+/g, "-")}`;
+
+  const formattedImage = Buffer.from(await images[0].arrayBuffer());
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: formattedImage,
+    })
+  );
+
+  const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
+  imageUrls.push(url);
+
+  return imageUrls;
 }

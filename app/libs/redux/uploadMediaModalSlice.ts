@@ -20,8 +20,8 @@ export const uploadMediaModalSlice = createSlice({
     setToFalse: (state) => {
       state.isOpen = false;
     },
-    addFileToBeUploaded: (state, action) => {
-      state.filesToBeUploaded = [...state.filesToBeUploaded, ...action.payload];
+    addFilesToBeUploaded: (state, action) => {
+      state.filesToBeUploaded = action.payload;
     },
     clearFilesToBeUploaded: (state) => {
       state.filesToBeUploaded = [];
@@ -32,7 +32,7 @@ export const uploadMediaModalSlice = createSlice({
 export const {
   toggle,
   setToFalse,
-  addFileToBeUploaded,
+  addFilesToBeUploaded,
   clearFilesToBeUploaded,
 } = uploadMediaModalSlice.actions;
 

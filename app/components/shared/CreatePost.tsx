@@ -35,9 +35,10 @@ export default function CreatePost({ session }: { session: Session }) {
 
     formData.append("text", post.text);
     formData.append("video", post.video);
-    filesToBeUploaded.forEach((file: File, index) => {
+    filesToBeUploaded.forEach((file) => {
       formData.append("image", file);
     });
+
     formData.append("userEmail", session?.user?.email as string);
 
     dispatch(clearFilesToBeUploaded());
@@ -49,11 +50,12 @@ export default function CreatePost({ session }: { session: Session }) {
       });
 
       if (res.ok) {
-        router.refresh();
         router.push("/");
       } else {
         console.log(res);
       }
+
+      router.refresh();
     } catch (err) {
       console.error(err);
     }
