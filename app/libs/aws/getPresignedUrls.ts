@@ -22,7 +22,6 @@ async function generatePresignedGetUrl(key: string) {
   const command = new GetObjectCommand(s3Params);
 
   const signedUrl = await getSignedUrl(s3Client, command);
-  console.log(signedUrl);
   return signedUrl;
 }
 
@@ -39,7 +38,6 @@ async function generatePreSignedPutUrl(key: string) {
   const command = new PutObjectCommand(s3Params);
 
   const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 60 });
-  console.log(signedUrl);
 
   return signedUrl;
 }
