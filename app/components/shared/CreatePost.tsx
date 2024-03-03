@@ -7,17 +7,11 @@ import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea
 import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  clearFilesToBeUploaded,
-  toggle,
-} from "@/app/libs/redux/uploadMediaModalSlice";
-import { RootState } from "@/app/libs/redux/store";
+import { useDispatch } from "react-redux";
+import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
+import useCreatePost from "@/app/utilities/(hooks)/data-hooks/useCreatePost";
 
 export default function CreatePost({ session }: { session: Session }) {
-  const filesToBeUploaded = useSelector(
-    (state: RootState) => state.uploadMediaModal.filesToBeUploaded
-  );
   const dispatch = useDispatch();
 
   const [post, setPost] = useState({ text: "", video: "" });
@@ -28,38 +22,11 @@ export default function CreatePost({ session }: { session: Session }) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   useAutoSizeTextArea(textAreaRef.current, post.text);
 
-  const handleSubmitPost = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    formData.append("text", post.text);
-    formData.append("video", post.video);
-    filesToBeUploaded.forEach((file) => {
-      formData.append("image", file);
-    });
-
-    formData.append("userEmail", session?.user?.email as string);
-
-    dispatch(clearFilesToBeUploaded());
-
-    try {
-      const res = await fetch("/api/post/create", {
-        method: "post",
-        body: formData,
-      });
-
-      if (res.ok) {
-        router.push("/");
-      } else {
-        console.log(res);
-      }
-
-      router.refresh();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { handleSubmitPost } = useCreatePost({
+    post,
+    router,
+    userEmail: session.user?.email as string,
+  });
 
   return (
     <section className="py-3 pl-4 pr-1 border-b">

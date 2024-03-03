@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prismaGlobal";
-import { S3, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
+import { generatePreSignedPutUrl } from "@/app/libs/aws/getPresignedUrls";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -23,50 +23,26 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const imageUrls =
-    postData.image.length > 0 ? await uploadDataToS3(postData.image) : [];
-  console.log(postData.image === null);
-  console.log(postData.image);
+  const imageKeys = [];
+
+  if (postData.image.length > 0) {
+    const fileExtension = postData.image[0].name
+      .split(".")
+      .pop()
+      ?.toLowerCase();
+    imageKeys.push(`${uuidv4()}.${fileExtension}`);
+  }
+
+  const signedPutUrl = await generatePreSignedPutUrl(imageKeys[0]);
 
   await prisma?.post.create({
     data: {
       userId: user.id,
       text: postData.text,
-      images: imageUrls,
+      images: imageKeys,
       numOfLikes: 0,
     },
   });
 
-  return new NextResponse(null, {
-    status: 200,
-    statusText: "Post created",
-  });
-}
-
-async function uploadDataToS3(images: File[]) {
-  const region = process.env.NEXT_PUBLIC_AWS_REGION || "eu-north-1";
-  console.log("wrong");
-  const s3Client = new S3({
-    region,
-  });
-  const bucket =
-    process.env.NEXT_PUBLIC_AWS_BUCKET || "onlyfans-with-actual-fans";
-
-  const imageUrls: string[] = [];
-
-  const key = `${uuidv4()}-${images[0].name.replace(/\s+/g, "-")}`;
-
-  const formattedImage = Buffer.from(await images[0].arrayBuffer());
-  await s3Client.send(
-    new PutObjectCommand({
-      Bucket: bucket,
-      Key: key,
-      Body: formattedImage,
-    })
-  );
-
-  const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
-  imageUrls.push(url);
-
-  return imageUrls;
+  return NextResponse.json({ signedPutUrl });
 }

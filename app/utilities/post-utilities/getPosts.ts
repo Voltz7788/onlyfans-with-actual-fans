@@ -1,13 +1,8 @@
 import prisma from "@/prisma/prismaGlobal";
 import { getPostDate } from "./getPostDate";
+import { generatePresignedGetUrl } from "@/app/libs/aws/getPresignedUrls";
 
-export async function getPosts(userEmail: string) {
-  // const user = await prisma.user.findUnique({ where: { email: userEmail } });
-
-  // const unformattedPosts = (
-  //   await prisma.post.findMany({ where: { userId: user?.id } })
-  // ).reverse();
-
+export async function getPosts() {
   const unformattedPosts = (
     await prisma.post.findMany({ include: { User: true } })
   ).reverse();
@@ -16,6 +11,12 @@ export async function getPosts(userEmail: string) {
     ...post,
     timePosted: getPostDate(post.timePosted),
   }));
+
+  formattedPosts.forEach(async (post) => {
+    const imageUrls = await generatePresignedGetUrl(post.images[0]);
+
+    post.images = imageUrls ? [imageUrls] : [];
+  });
 
   return { posts: formattedPosts };
 }
