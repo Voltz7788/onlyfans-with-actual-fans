@@ -43,9 +43,9 @@ export default function Post({
   });
 
   return (
-    <section key={post.id} className="p-4 border-b">
+    <section key={post.id} className="py-4 border-b">
       {/* Header */}
-      <div className="flex items-center">
+      <div className="flex items-center px-4">
         <Image
           src={post.User?.image || defaultAvatar}
           width={11}
@@ -65,9 +65,35 @@ export default function Post({
         </p>
       </div>
 
+      {/* Image */}
+      {post.images === null || post.images?.length > 0 ? (
+        <div className="relative w-full max-h-[600px] aspect-square h-full my-5 -z-10">
+          <Image
+            src={post.images![0]}
+            alt=""
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-full h-full object-cover absolute top-0 left-0 opacity-20"
+          />
+          <Image
+            src={post.images![0]}
+            alt=""
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="relative  w-full h-full object-contain backdrop-blur-xl"
+            placeholder="blur"
+            blurDataURL={post.images![0]}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
       {/* Post Text */}
       {updateActive && postedByCurrentUser ? (
-        <form onSubmit={handleUpdatePost}>
+        <form onSubmit={handleUpdatePost} className="px-4">
           <textarea
             ref={textAreaRef}
             id="postText"
@@ -87,25 +113,9 @@ export default function Post({
           </div>
         </form>
       ) : (
-        <p className="mt-4 text-onlyfans-black leading-[26px]">
+        <p className="mt-4 px-4 text-onlyfans-black leading-[26px]">
           {optimisticText}
         </p>
-      )}
-
-      {/* Image */}
-      {post.images === null || post.images?.length > 0 ? (
-        <Image
-          src={post.images![0]}
-          alt=""
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="w-full h-full"
-          placeholder="blur"
-          blurDataURL={post.images![0]}
-        />
-      ) : (
-        <></>
       )}
 
       {/* Video */}
@@ -113,7 +123,7 @@ export default function Post({
 
       {/* Buttons */}
       <div>
-        <div className="flex items-center gap-5 mt-5">
+        <div className="flex items-center gap-5 mt-5 px-4">
           <button>
             {isLiked ? (
               <FaHeart className="text-red-500 text-xl" />
@@ -174,7 +184,9 @@ export default function Post({
             </button>
           </div>
         </Modal>
-        <p className="text-sm mt-3">
+
+        {/* Likes */}
+        <p className="text-sm mt-3 px-4">
           <span className="font-medium">{post.numOfLikes}</span> likes
         </p>
       </div>
