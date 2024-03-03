@@ -35,7 +35,9 @@ export default function CreatePost({ session }: { session: Session }) {
 
     formData.append("text", post.text);
     formData.append("video", post.video);
-    formData.append("image", filesToBeUploaded[0]);
+    filesToBeUploaded.forEach((file) => {
+      formData.append("image", file);
+    });
 
     formData.append("userEmail", session?.user?.email as string);
 

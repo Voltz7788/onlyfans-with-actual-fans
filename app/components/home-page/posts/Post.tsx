@@ -54,16 +54,16 @@ export default function Post({
       </div>
       <p className="mt-4 text-onlyfans-black leading-[26px]">{post.text}</p>
       {/* Image */}
-      {post.images ? (
+      {post.images === null || post.images?.length > 0 ? (
         <Image
-          src={post.images[0]}
+          src={post.images![0]}
           alt=""
           width={0}
           height={0}
           sizes="100vw"
           className="w-full h-full"
           placeholder="blur"
-          blurDataURL={post.images[0]}
+          blurDataURL={post.images![0]}
         />
       ) : (
         <></>
