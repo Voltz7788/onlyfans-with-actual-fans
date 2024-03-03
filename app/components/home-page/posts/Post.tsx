@@ -16,17 +16,32 @@ import { useState } from "react";
 import { PostComponentProps } from "@/@types/types";
 import { useRouter } from "next/navigation";
 import useDeletePost from "@/app/utilities/(hooks)/data-hooks/useDeletePost";
+import useUpdatePost from "@/app/utilities/(hooks)/data-hooks/useUpdatePost";
 
 export default function Post({
   post,
   isLiked,
   postedByCurrentUser,
 }: PostComponentProps) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter();
 
   const { deleteIsOpen, setDeleteIsOpen, handleDeletePost } = useDeletePost({
     postId: post.id,
+    router,
+  });
+
+  const {
+    optimisticText,
+    newPostText,
+    textAreaRef,
+    setNewPostText,
+    handleUpdatePost,
+    updateActive,
+    setUpdateActive,
+  } = useUpdatePost({
+    postId: post.id,
+    postText: post.text,
     router,
   });
 
@@ -52,7 +67,34 @@ export default function Post({
           {post.timePosted}
         </p>
       </div>
-      <p className="mt-4 text-onlyfans-black leading-[26px]">{post.text}</p>
+
+      {/* Post Text */}
+      {updateActive && postedByCurrentUser ? (
+        <form onSubmit={handleUpdatePost}>
+          <textarea
+            ref={textAreaRef}
+            id="postText"
+            name="postText"
+            placeholder="Edit post..."
+            onChange={(e) => setNewPostText(e.target.value)}
+            value={newPostText}
+            className="border p-1.5 rounded mt-4 focus:placeholder-gray-300 outline-none caret-onlyfans-blue text-onlyfans-black w-full 
+            resize-none max-h-52 scrollbar scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 scrollbar-w-1"
+            aria-label="Edit post"
+            rows={1}
+          />
+          <div className="flex w-full">
+            <button className="mt-1.5 ml-auto uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-semibold text-white mr-4 px-5 py-2 text-sm rounded-full">
+              Update
+            </button>
+          </div>
+        </form>
+      ) : (
+        <p className="mt-4 text-onlyfans-black leading-[26px]">
+          {optimisticText}
+        </p>
+      )}
+
       {/* Image */}
       {post.images === null || post.images?.length > 0 ? (
         <Image
@@ -72,6 +114,7 @@ export default function Post({
       {/* Video */}
       {post.video ? <p>{post.video}</p> : <></>}
 
+      {/* Buttons */}
       <div>
         <div className="flex items-center gap-5 mt-5">
           <button>
@@ -92,7 +135,7 @@ export default function Post({
             <div className="flex ml-auto gap-4">
               {/* Update Button */}
               <button
-                // onClick={() => dispatch(toggle())}
+                onClick={() => setUpdateActive(!updateActive)}
                 className="text-onlyfans-light-gray flex gap-2 items-center hover:text-gray-500 active:text-gray-600 transition-all"
               >
                 <FaPencil className="text-lg" />
