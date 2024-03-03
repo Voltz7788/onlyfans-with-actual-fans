@@ -87,6 +87,7 @@ export const PostText = ({
     formData.append("postId", postId);
     formData.append("updatedText", newPostText);
     addOptimisitcText(newPostText);
+
     dispatch(toggle());
     try {
       const res = await fetch("/api/post/update", {

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prismaGlobal";
 import { S3, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
@@ -64,7 +63,6 @@ async function uploadDataToS3(images: File[]) {
     })
   );
 
-  const command = new GetObjectCommand({ Bucket: bucket, Key: key });
   const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
   imageUrls.push(url);
 
