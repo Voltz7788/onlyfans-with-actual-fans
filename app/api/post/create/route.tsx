@@ -53,7 +53,7 @@ async function uploadDataToS3(images: File[]) {
 
   const imageUrls: string[] = [];
 
-  const key = `${uuidv4()}-${images[0].name}`;
+  const key = `${uuidv4()}-${images[0].name.replace(/\s+/g, "-")}`;
 
   const formattedImage = Buffer.from(await images[0].arrayBuffer());
   await s3Client.send(
