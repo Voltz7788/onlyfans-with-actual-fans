@@ -23,8 +23,10 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const imageUrls = await uploadDataToS3(postData.image);
-  console.log(imageUrls);
+  const imageUrls =
+    postData.image.length > 0 ? await uploadDataToS3(postData.image) : [];
+  console.log(postData.image === null);
+  console.log(postData.image);
 
   await prisma?.post.create({
     data: {
@@ -43,7 +45,7 @@ export async function POST(request: NextRequest) {
 
 async function uploadDataToS3(images: File[]) {
   const region = process.env.NEXT_PUBLIC_AWS_REGION || "eu-north-1";
-
+  console.log("wrong");
   const s3Client = new S3({
     region,
   });
