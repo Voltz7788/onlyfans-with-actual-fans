@@ -15,6 +15,7 @@ import { Modal } from "antd";
 import { useState } from "react";
 import { PostComponentProps } from "@/@types/types";
 import { useRouter } from "next/navigation";
+import useDeletePost from "@/app/utilities/(hooks)/data-hooks/useDeletePost";
 
 export default function Post({
   post,
@@ -24,26 +25,10 @@ export default function Post({
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleDeletePost = async () => {
-    const formData = new FormData();
-    formData.append("postId", post.id);
-
-    try {
-      const res = await fetch("/api/post/delete", {
-        method: "post",
-        body: formData,
-      });
-
-      if (res.ok) {
-        setDeleteIsOpen(false);
-        router.refresh();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const [deleteIsOpen, setDeleteIsOpen] = useState(false);
+  const { deleteIsOpen, setDeleteIsOpen, handleDeletePost } = useDeletePost({
+    postId: post.id,
+    router,
+  });
 
   return (
     <section key={post.id} className="p-4 border-b">
