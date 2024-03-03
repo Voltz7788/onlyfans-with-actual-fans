@@ -43,8 +43,10 @@ export async function POST(request: NextRequest) {
 }
 
 async function uploadDataToS3(images: File[]) {
+  const region = process.env.NEXT_PUBLIC_AWS_REGION || "eu-north-1";
+
   const s3Client = new S3({
-    region: process.env.NEXT_PUBLIC_AWS_REGION || "eu-north-1",
+    region,
   });
   const bucket =
     process.env.NEXT_PUBLIC_AWS_BUCKET || "onlyfans-with-actual-fans";
@@ -63,7 +65,7 @@ async function uploadDataToS3(images: File[]) {
   );
 
   const command = new GetObjectCommand({ Bucket: bucket, Key: key });
-  const url = await getSignedUrl(s3Client, command);
+  const url = `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
   imageUrls.push(url);
 
   return imageUrls;
