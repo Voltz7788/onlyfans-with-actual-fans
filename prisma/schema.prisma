@@ -45,6 +45,14 @@ model User {
   following     Follows[] @relation("following")
 }
 
+model Image {
+  id     String  @id @default(cuid())
+  key    String
+  url    String?
+  Post   Post?   @relation(fields: [postId], references: [id])
+  postId String?
+}
+
 model Follows {
   followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
   followedById String
@@ -58,7 +66,7 @@ model Post {
   id         String   @id @default(cuid())
   timePosted DateTime @default(now())
   text       String
-  images     String[]
+  images     Image[]
   video      String?
   numOfLikes Int
   User       User?    @relation(fields: [userId], references: [id])

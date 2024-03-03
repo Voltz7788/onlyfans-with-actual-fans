@@ -23,6 +23,14 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const newPost = await prisma?.post.create({
+    data: {
+      userId: user.id,
+      text: postData.text,
+      numOfLikes: 0,
+    },
+  });
+
   const imageKeys = [];
 
   if (postData.image.length > 0) {
@@ -31,18 +39,13 @@ export async function POST(request: NextRequest) {
       .pop()
       ?.toLowerCase();
     imageKeys.push(`${uuidv4()}.${fileExtension}`);
+
+    await prisma.image.create({
+      data: { postId: newPost.id, key: imageKeys[0] },
+    });
   }
 
   const signedPutUrl = await generatePreSignedPutUrl(imageKeys[0]);
-
-  await prisma?.post.create({
-    data: {
-      userId: user.id,
-      text: postData.text,
-      images: imageKeys,
-      numOfLikes: 0,
-    },
-  });
 
   return NextResponse.json({ signedPutUrl });
 }

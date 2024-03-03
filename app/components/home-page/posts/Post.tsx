@@ -23,9 +23,11 @@ export default function Post({
 }: PostComponentProps) {
   const router = useRouter();
 
+  // console.log(post.images?.[0]);
+
   const { deleteIsOpen, setDeleteIsOpen, handleDeletePost } = useDeletePost({
     postId: post.id,
-    key: post.images![0],
+    image: post.images?.[0] || null,
     router,
   });
 
@@ -70,22 +72,23 @@ export default function Post({
       {post.images === null || post.images?.length > 0 ? (
         <div className="relative w-full max-h-[600px] aspect-square h-full my-5 -z-10">
           <Image
-            src={post.images![0]}
+            src={post.images![0].url!}
             alt=""
             width={0}
             height={0}
             sizes="100vw"
+            blurDataURL={post.images![0].url!}
             className="w-full h-full object-cover absolute top-0 left-0 opacity-20"
           />
           <Image
-            src={post.images![0]}
+            src={post.images![0].url!}
             alt=""
             width={0}
             height={0}
             sizes="100vw"
             className="relative  w-full h-full object-contain backdrop-blur-xl"
             placeholder="blur"
-            blurDataURL={post.images![0]}
+            blurDataURL={post.images![0].url!}
           />
         </div>
       ) : (

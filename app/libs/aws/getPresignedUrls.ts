@@ -14,14 +14,18 @@ const s3Client = new S3({
   },
 });
 
-async function generatePresignedGetUrl(key: string) {
-  if (!key) {
+async function generatePresignedGetUrl(image: {
+  key: string;
+  url: string | null;
+}) {
+  console.log(image);
+  if (!image) {
     return null;
   }
 
   const s3Params = {
     Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET || "onlyfans-with-actual-fans",
-    Key: key,
+    Key: image.key,
   };
 
   const command = new GetObjectCommand(s3Params);
@@ -55,7 +59,6 @@ async function deleteObjectFromBucket(key: string) {
 
   try {
     const data = await s3Client.send(new DeleteObjectCommand(s3Params));
-    console.log("Success. Object deletted.", data);
   } catch (err) {
     console.error(err);
   }
