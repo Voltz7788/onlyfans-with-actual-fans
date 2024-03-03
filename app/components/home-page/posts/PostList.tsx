@@ -42,7 +42,7 @@ export default async function PostList({ posts }: PostListProps) {
             }
             postId={post.id}
           />
-          <Post.Image />
+          <Post.Image image={post.images![0]} />
           <Post.Video />
           <Post.Buttons
             isLiked={false}

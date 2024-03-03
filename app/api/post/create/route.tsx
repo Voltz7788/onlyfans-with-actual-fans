@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/prismaGlobal";
-import { S3, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
 
   const postData = {
     text: data.get("text") as string,
-    images: data.getAll("image") as File[],
+    image: data.getAll("image") as File[],
     video: data.get("video") as string,
   };
 
@@ -23,13 +24,14 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const imageKeys = await uploadDataToS3(postData.images);
+  const imageUrls = await uploadDataToS3(postData.image);
+  console.log(imageUrls);
 
   await prisma?.post.create({
     data: {
       userId: user.id,
       text: postData.text,
-      images: imageKeys,
+      images: imageUrls,
       numOfLikes: 0,
     },
   });
@@ -47,19 +49,22 @@ async function uploadDataToS3(images: File[]) {
   const bucket =
     process.env.NEXT_PUBLIC_AWS_BUCKET || "onlyfans-with-actual-fans";
 
-  const imageKeys: string[] = [];
+  const imageUrls: string[] = [];
 
-  images.forEach(async (image: File) => {
-    const key = `${uuidv4()}-${image.name}`;
-    imageKeys.push(key);
-    const formattedImage = Buffer.from(await image.arrayBuffer());
-    await s3Client.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: key,
-        Body: formattedImage,
-      })
-    );
-  });
-  return imageKeys;
+  const key = `${uuidv4()}-${images[0].name}`;
+
+  const formattedImage = Buffer.from(await images[0].arrayBuffer());
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: formattedImage,
+    })
+  );
+
+  const command = new GetObjectCommand({ Bucket: bucket, Key: key });
+  const url = await getSignedUrl(s3Client, command);
+  imageUrls.push(url);
+
+  return imageUrls;
 }
