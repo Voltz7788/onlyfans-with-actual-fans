@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface UploadMediaModalState {
   isOpen: boolean;
-  filesToBeUploaded: File[];
+  filesToBeUploaded: File | null;
 }
 
 const initialState: UploadMediaModalState = {
   isOpen: false,
-  filesToBeUploaded: [],
+  filesToBeUploaded: null,
 };
 
 export const uploadMediaModalSlice = createSlice({
@@ -21,10 +21,10 @@ export const uploadMediaModalSlice = createSlice({
       state.isOpen = false;
     },
     addFileToBeUploaded: (state, action) => {
-      state.filesToBeUploaded = [...state.filesToBeUploaded, ...action.payload];
+      state.filesToBeUploaded = action.payload;
     },
     clearFilesToBeUploaded: (state) => {
-      state.filesToBeUploaded = [];
+      state.filesToBeUploaded = null;
     },
   },
 });
