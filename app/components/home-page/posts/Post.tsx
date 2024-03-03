@@ -10,9 +10,7 @@ import {
 } from "react-icons/fa6";
 import { AiOutlineDollar } from "react-icons/ai";
 import defaultAvatar from "../../../../public/defaultAvatar.png";
-import { useDispatch } from "react-redux";
 import { Modal } from "antd";
-import { useState } from "react";
 import { PostComponentProps } from "@/@types/types";
 import { useRouter } from "next/navigation";
 import useDeletePost from "@/app/utilities/(hooks)/data-hooks/useDeletePost";
@@ -95,7 +93,7 @@ export default function Post({
       )}
 
       {/* Image */}
-      {/* {post.images === null || post.images?.length > 0 ? (
+      {post.images === null || post.images?.length > 0 ? (
         <Image
           src={post.images![0]}
           alt=""
@@ -108,7 +106,7 @@ export default function Post({
         />
       ) : (
         <></>
-      )} */}
+      )}
 
       {/* Video */}
       {post.video ? <p>{post.video}</p> : <></>}
