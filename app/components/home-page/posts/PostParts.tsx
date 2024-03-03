@@ -87,6 +87,7 @@ export const PostText = ({
     formData.append("postId", postId);
     formData.append("updatedText", newPostText);
     addOptimisitcText(newPostText);
+
     dispatch(toggle());
     try {
       const res = await fetch("/api/post/update", {
@@ -137,8 +138,21 @@ export const PostText = ({
   );
 };
 
-export const PostImage = ({ image }: { image?: StaticImageData }) => {
-  return image ? <Image src={image} alt="" /> : <></>;
+export const PostImage = ({ image }: { image?: string }) => {
+  return image ? (
+    <Image
+      src={image}
+      alt=""
+      width={0}
+      height={0}
+      sizes="100vw"
+      className="w-full h-full"
+      placeholder="blur"
+      blurDataURL={image}
+    />
+  ) : (
+    <></>
+  );
 };
 
 export const PostVideo = ({ videoLink }: { videoLink?: string }) => {
