@@ -19,9 +19,12 @@ export default function DropzoneModal() {
       className="relative flex p-5"
     >
       <DropzoneUploader />
-      <div className="absolute top-0 right-0 m-0.5">
-        <IoClose />
-      </div>
+      <button
+        onClick={() => dispatch(setToFalse())}
+        className="absolute top-0 right-0 m-1"
+      >
+        <IoClose className="hover:text-gray-600 transition-all" />
+      </button>
     </Modal>
   );
 }
