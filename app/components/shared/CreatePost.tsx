@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Tooltip } from "react-tooltip";
@@ -8,25 +8,32 @@ import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
 import { useDispatch } from "react-redux";
-import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
+import {
+  clearFilesToBeUploaded,
+  toggle,
+} from "@/app/libs/redux/uploadMediaModalSlice";
 import useCreatePost from "@/app/utilities/(hooks)/data-hooks/useCreatePost";
+import { RootState } from "@/app/libs/redux/store";
+import Image from "next/image";
+import useImagePreview from "@/app/utilities/(hooks)/data-hooks/useImagePreview";
 
 export default function CreatePost({ session }: { session: Session }) {
-  const dispatch = useDispatch();
-
   const [post, setPost] = useState({ text: "", video: "" });
-  const pathname = usePathname();
 
   const router = useRouter();
+  const dispatch = useDispatch();
+  const pathname = usePathname();
 
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  useAutoSizeTextArea(textAreaRef.current, post.text);
+  const { previewFiles } = useImagePreview();
 
   const { handleSubmitPost } = useCreatePost({
     post,
     router,
     userEmail: session.user?.email as string,
   });
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutoSizeTextArea(textAreaRef.current, post.text);
 
   return (
     <section className="py-3 pl-4 pr-1 border-b">
@@ -69,6 +76,18 @@ export default function CreatePost({ session }: { session: Session }) {
             )}
           </div>
         </form>
+        {previewFiles && pathname === "/create-post" ? (
+          <Image
+            src={previewFiles}
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-full border rounded mt-3"
+            alt=""
+          />
+        ) : (
+          <></>
+        )}
         <DropzoneModal />
       </IconContext.Provider>
     </section>
