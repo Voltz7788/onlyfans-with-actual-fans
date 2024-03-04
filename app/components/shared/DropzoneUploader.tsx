@@ -41,7 +41,9 @@ export default function DropzoneUploader() {
       className={`flex flex-col justify-center py-3 px-6 mt-3 text-gray-500 text-base border cursor-pointer min-h-[8rem]
        hover:border-onlyfans-blue hover:text-onlyfans-blue 
       border-dashed transition-all duration-300 rounded-md ${
-        filesToBeUploaded ? "text-onlyfans-blue border-onlyfans-blue" : ""
+        filesToBeUploaded.length > 0
+          ? "text-onlyfans-blue border-onlyfans-blue"
+          : ""
       }`}
     >
       <input {...getInputProps()} />
