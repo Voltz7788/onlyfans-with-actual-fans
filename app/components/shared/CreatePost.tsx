@@ -7,7 +7,7 @@ import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea
 import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   clearFilesToBeUploaded,
   toggle,
@@ -15,38 +15,25 @@ import {
 import useCreatePost from "@/app/utilities/(hooks)/data-hooks/useCreatePost";
 import { RootState } from "@/app/libs/redux/store";
 import Image from "next/image";
+import useImagePreview from "@/app/utilities/(hooks)/data-hooks/useImagePreview";
 
 export default function CreatePost({ session }: { session: Session }) {
-  const dispatch = useDispatch();
-  const filesToBeUploaded = useSelector(
-    (state: RootState) => state.uploadMediaModal.filesToBeUploaded
-  );
-
-  const [previewFiles, setPreviewFiles] = useState<string | null>("");
-  const router = useRouter();
-  useEffect(() => {
-    if (filesToBeUploaded.length > 0) {
-      setPreviewFiles(URL.createObjectURL(filesToBeUploaded[0]));
-    }
-  }, [filesToBeUploaded]);
-
   const [post, setPost] = useState({ text: "", video: "" });
+
+  const router = useRouter();
+  const dispatch = useDispatch();
   const pathname = usePathname();
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearFilesToBeUploaded());
-    };
-  }, [pathname, dispatch]);
-
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  useAutoSizeTextArea(textAreaRef.current, post.text);
+  const { previewFiles } = useImagePreview();
 
   const { handleSubmitPost } = useCreatePost({
     post,
     router,
     userEmail: session.user?.email as string,
   });
+
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutoSizeTextArea(textAreaRef.current, post.text);
 
   return (
     <section className="py-3 pl-4 pr-1 border-b">
