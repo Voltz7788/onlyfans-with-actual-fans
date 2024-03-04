@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Tooltip } from "react-tooltip";
@@ -8,19 +8,23 @@ import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
 import { useDispatch } from "react-redux";
-import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
+import {
+  clearFilesToBeUploaded,
+  toggle,
+} from "@/app/libs/redux/uploadMediaModalSlice";
 import useCreatePost from "@/app/utilities/(hooks)/data-hooks/useCreatePost";
+import { RootState } from "@/app/libs/redux/store";
+import Image from "next/image";
+import useImagePreview from "@/app/utilities/(hooks)/data-hooks/useImagePreview";
 
 export default function CreatePost({ session }: { session: Session }) {
-  const dispatch = useDispatch();
-
   const [post, setPost] = useState({ text: "", video: "" });
-  const pathname = usePathname();
 
   const router = useRouter();
+  const dispatch = useDispatch();
+  const pathname = usePathname();
 
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  useAutoSizeTextArea(textAreaRef.current, post.text);
+  const { previewFiles } = useImagePreview();
 
   const { handleSubmitPost } = useCreatePost({
     post,
@@ -28,8 +32,11 @@ export default function CreatePost({ session }: { session: Session }) {
     userEmail: session.user?.email as string,
   });
 
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  useAutoSizeTextArea(textAreaRef.current, post.text);
+
   return (
-    <section className="py-3 pl-4 pr-1 border-b">
+    <section className="py-3 pl-4 pr-4 border-b">
       <IconContext.Provider value={{ className: "text-gray-400 text-2xl" }}>
         <form onSubmit={handleSubmitPost}>
           <textarea
@@ -63,12 +70,37 @@ export default function CreatePost({ session }: { session: Session }) {
             {pathname === "/" ? (
               <></>
             ) : (
-              <button className="uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-medium text-white mr-4 px-5 py-2 text-sm rounded-full">
+              <button className="uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-medium text-white px-5 py-2 text-sm rounded-full">
                 Post
               </button>
             )}
           </div>
         </form>
+        {previewFiles && pathname === "/create-post" ? (
+          <div className="relative w-full max-h-[600px] aspect-square h-full my-5 -z-10">
+            <Image
+              src={previewFiles}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              blurDataURL={previewFiles}
+              className="w-full h-full object-cover absolute top-0 left-0 opacity-20"
+            />
+            <Image
+              src={previewFiles}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="relative  w-full h-full object-contain backdrop-blur-xl"
+              placeholder="blur"
+              blurDataURL={previewFiles}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
         <DropzoneModal />
       </IconContext.Provider>
     </section>

@@ -26,7 +26,14 @@ export type PostListProps = {
       password: string | null;
     } | null;
     text: string;
-    images: string[] | null;
+    images:
+      | {
+          id: string;
+          url: string | null;
+          key: string;
+          postId: string | null;
+        }[]
+      | null;
     video: string | null;
     numOfLikes: number;
     userId: string | null;
@@ -46,7 +53,14 @@ export type Post = {
     password: string | null;
   } | null;
   text: string;
-  images: string[] | null;
+  images:
+    | {
+        id: string;
+        url: string | null;
+        key: string;
+        postId: string | null;
+      }[]
+    | null;
   video: string | null;
   numOfLikes: number;
   userId: string | null;
