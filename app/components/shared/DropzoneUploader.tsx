@@ -54,14 +54,6 @@ export default function DropzoneUploader() {
         <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
       )}
 
-      {/* <ul className="w-full list-inside list-decimal">
-        {filesToBeUploaded.map((file, index) => (
-          <li key={index} className="m-0.5">
-            {file.name}
-          </li>
-        ))}
-      
-      </ul> */}
       {filesToBeUploaded.length > 0 ? (
         <Image
           src={previewFiles}

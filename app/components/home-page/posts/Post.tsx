@@ -23,8 +23,6 @@ export default function Post({
 }: PostComponentProps) {
   const router = useRouter();
 
-  // console.log(post.images?.[0]);
-
   const { deleteIsOpen, setDeleteIsOpen, handleDeletePost } = useDeletePost({
     postId: post.id,
     image: post.images?.[0] || null,

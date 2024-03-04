@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Tooltip } from "react-tooltip";
@@ -7,17 +7,37 @@ import { useAutoSizeTextArea } from "@/app/utilities/(hooks)/useAutoSizeTextArea
 import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
-import { useDispatch } from "react-redux";
-import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearFilesToBeUploaded,
+  toggle,
+} from "@/app/libs/redux/uploadMediaModalSlice";
 import useCreatePost from "@/app/utilities/(hooks)/data-hooks/useCreatePost";
+import { RootState } from "@/app/libs/redux/store";
+import Image from "next/image";
 
 export default function CreatePost({ session }: { session: Session }) {
   const dispatch = useDispatch();
+  const filesToBeUploaded = useSelector(
+    (state: RootState) => state.uploadMediaModal.filesToBeUploaded
+  );
+
+  const [previewFiles, setPreviewFiles] = useState<string | null>("");
+  const router = useRouter();
+  useEffect(() => {
+    if (filesToBeUploaded.length > 0) {
+      setPreviewFiles(URL.createObjectURL(filesToBeUploaded[0]));
+    }
+  }, [filesToBeUploaded]);
 
   const [post, setPost] = useState({ text: "", video: "" });
   const pathname = usePathname();
 
-  const router = useRouter();
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilesToBeUploaded());
+    };
+  }, [pathname, dispatch]);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   useAutoSizeTextArea(textAreaRef.current, post.text);
@@ -69,6 +89,18 @@ export default function CreatePost({ session }: { session: Session }) {
             )}
           </div>
         </form>
+        {previewFiles && pathname === "/create-post" ? (
+          <Image
+            src={previewFiles}
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-full border rounded mt-3"
+            alt=""
+          />
+        ) : (
+          <></>
+        )}
         <DropzoneModal />
       </IconContext.Provider>
     </section>
