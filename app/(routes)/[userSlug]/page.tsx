@@ -5,6 +5,7 @@ import { auth } from "@/app/utilities/getServerSessionHelper";
 import { notFound, redirect } from "next/navigation";
 import { getSingleUsersPosts } from "@/app/utilities/post-utilities/getSingleUsersPosts";
 import verifyUser from "@/app/utilities/data-utilities/verifyUser";
+import ProfileSubscribe from "@/app/components/profile-page/ProfileSubscribe";
 
 export default async function Page({
   params,
@@ -31,6 +32,7 @@ export default async function Page({
     <main className="border-x w-full xl:w-1/3 min-h-screen">
       <TopNav pageTitle="Profile" user={user} />
       <ProfileHeader user={user} />
+      <ProfileSubscribe />
       <ProfilePostsContainer posts={usersPosts} />
     </main>
   );
