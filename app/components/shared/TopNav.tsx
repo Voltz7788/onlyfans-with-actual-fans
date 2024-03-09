@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
+import useSolidHeader from "@/app/utilities/(hooks)/ui-hooks/useSolidHeader";
 
 type TopNavProps = {
   pageTitle: string;
@@ -12,22 +13,11 @@ type TopNavProps = {
 export default function TopNav({ pageTitle, session }: TopNavProps) {
   const router = useRouter();
 
-  const [solidHeader, setSolidHeader] = useState(false);
-  useEffect(() => {
-    const listenScrollEvent = (e: Event) => {
-      if (window.scrollY > 150) {
-        setSolidHeader(true);
-      } else {
-        setSolidHeader(false);
-      }
-    };
-
-    window.addEventListener("scroll", listenScrollEvent);
-  }, []);
+  const { solidHeader } = useSolidHeader();
 
   return (
     <nav
-      className={`w-full left-0 xl:flex sticky z-20 top-0 transition-colors duration-150 ${
+      className={`w-full left-0 xl:flex sticky z-20 top-0 transition-colors duration-100 ${
         pageTitle === "Profile" && !solidHeader
           ? "bg-transparent"
           : "bg-white border-b"
