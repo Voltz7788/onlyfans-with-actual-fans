@@ -34,7 +34,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "jest.setup.js",
-    "jest.config.js"
+    "jest.config.js",
+    "prisma/populateDatabase.js"
   ],
   "exclude": [
     "node_modules"
