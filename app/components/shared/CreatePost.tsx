@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Tooltip } from "react-tooltip";
@@ -8,12 +8,8 @@ import { usePathname, useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import DropzoneModal from "./DropzoneModal";
 import { useDispatch } from "react-redux";
-import {
-  clearFilesToBeUploaded,
-  toggle,
-} from "@/app/libs/redux/uploadMediaModalSlice";
+import { toggle } from "@/app/libs/redux/uploadMediaModalSlice";
 import useCreatePost from "@/app/utilities/(hooks)/data-hooks/useCreatePost";
-import { RootState } from "@/app/libs/redux/store";
 import Image from "next/image";
 import useImagePreview from "@/app/utilities/(hooks)/data-hooks/useImagePreview";
 
@@ -70,7 +66,10 @@ export default function CreatePost({ session }: { session: Session }) {
             {pathname === "/" ? (
               <></>
             ) : (
-              <button className="uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors font-medium text-white px-5 py-2 text-sm rounded-full">
+              <button
+                className="uppercase bg-onlyfans-light-blue hover:bg-onlyfans-blue transition-colors 
+              font-medium text-white px-5 py-2 text-sm rounded-full"
+              >
                 Post
               </button>
             )}

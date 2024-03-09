@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import DropzoneUploader from "./DropzoneUploader";
 import { useSelector, useDispatch } from "react-redux";
-import { toggle, setToFalse } from "@/app/libs/redux/uploadMediaModalSlice";
+import { setToFalse } from "@/app/libs/redux/uploadMediaModalSlice";
 import { RootState } from "@/app/libs/redux/store";
 import { IoClose } from "react-icons/io5";
 
