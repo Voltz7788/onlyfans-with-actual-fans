@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { CustomSession } from "@/@types/types";
+import { CustomSession, CustomUser } from "@/@types/types";
 import Link from "next/link";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiShare } from "react-icons/pi";
 import GrayBar from "../shared/aesthetic/GrayBar";
 import defaultAvatar from "../../../public/defaultAvatar.png";
 
-export default function ProfileHeader({ session }: { session: CustomSession }) {
+export default function ProfileHeader({ user }: { user: CustomUser }) {
   return (
     <section>
       <div className="bg-sky-100 h-44 -mt-16 z-10">
@@ -16,7 +16,7 @@ export default function ProfileHeader({ session }: { session: CustomSession }) {
         <div>
           <div className="relative w-fit">
             <Image
-              src={session?.user?.image || defaultAvatar}
+              src={user?.image || defaultAvatar}
               alt="Profile picture"
               width={100}
               height={100}
@@ -25,11 +25,8 @@ export default function ProfileHeader({ session }: { session: CustomSession }) {
             />
             <div className="absolute bottom-1.5 right-2 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
           </div>
-
-          <p className="mt-3 font-medium text-lg">{session?.user?.name}</p>
-          <p className="text-sm text-onlyfans-light-gray">
-            @{session?.user?.username}
-          </p>
+          <p className="mt-3 font-medium text-lg">{user?.name}</p>
+          <p className="text-sm text-onlyfans-light-gray">@{user?.username}</p>
         </div>
         <div className="flex items-start gap-3 ml-auto mt-5">
           <Link

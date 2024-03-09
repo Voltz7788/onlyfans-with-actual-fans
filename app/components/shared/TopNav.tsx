@@ -1,16 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import type { Session } from "next-auth";
 import useSolidHeader from "@/app/utilities/(hooks)/ui-hooks/useSolidHeader";
+import { CustomUser } from "@/@types/types";
 
 type TopNavProps = {
   pageTitle: string;
-  session?: Session;
+  user?: CustomUser;
 };
 
-export default function TopNav({ pageTitle, session }: TopNavProps) {
+export default function TopNav({ pageTitle, user }: TopNavProps) {
   const router = useRouter();
 
   const { solidHeader } = useSolidHeader();
@@ -51,7 +50,7 @@ export default function TopNav({ pageTitle, session }: TopNavProps) {
               : ""
           }`}
         >
-          {pageTitle === "Profile" ? session!.user?.name : pageTitle}
+          {pageTitle === "Profile" ? user?.name : pageTitle}
         </h1>
       </div>
     </nav>
