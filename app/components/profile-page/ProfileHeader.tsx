@@ -17,7 +17,7 @@ export default async function ProfileHeader() {
       </div>
       <div className="flex px-6 pb-10 border-b">
         <div>
-          <div className="relative">
+          <div className="relative w-fit">
             <Image
               src={session?.user?.image || defaultAvatar}
               alt="Profile picture"
@@ -26,7 +26,7 @@ export default async function ProfileHeader() {
               unoptimized
               className="rounded-full border-2 border-white -mt-14 bg-white"
             />
-            <div className="absolute top-[4.8rem] right-3 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
+            <div className="absolute bottom-1.5 right-2 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
           </div>
 
           <p className="mt-3 font-medium text-lg">{session?.user?.name}</p>
