@@ -1,4 +1,5 @@
 import type { Post } from "@/@types/types";
+import PostList from "../home-page/posts/PostList";
 
 export default function ProfilePostsContainer({ posts }: { posts: Post[] }) {
   return (
@@ -10,6 +11,7 @@ export default function ProfilePostsContainer({ posts }: { posts: Post[] }) {
             : `${posts.length} ${posts.length === 1 ? "Post" : "Posts"}`}
         </p>
       </div>
+      <PostList posts={posts} />
     </section>
   );
 }

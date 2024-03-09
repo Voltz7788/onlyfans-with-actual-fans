@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useState, useEffect } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
@@ -11,10 +11,26 @@ type TopNavProps = {
 
 export default function TopNav({ pageTitle, session }: TopNavProps) {
   const router = useRouter();
+
+  const [solidHeader, setSolidHeader] = useState(false);
+  useEffect(() => {
+    const listenScrollEvent = (e: Event) => {
+      if (window.scrollY > 150) {
+        setSolidHeader(true);
+      } else {
+        setSolidHeader(false);
+      }
+    };
+
+    window.addEventListener("scroll", listenScrollEvent);
+  }, []);
+
   return (
     <nav
-      className={`w-full left-0 xl:flex sticky top-0 ${
-        pageTitle === "Profile" ? "bg-transparent" : "bg-white border-b"
+      className={`w-full left-0 xl:flex sticky z-20 top-0 transition-colors duration-150 ${
+        pageTitle === "Profile" && !solidHeader
+          ? "bg-transparent"
+          : "bg-white border-b"
       }`}
     >
       <div
@@ -22,7 +38,7 @@ export default function TopNav({ pageTitle, session }: TopNavProps) {
           pageTitle === "Profile" ? "bg-transparent" : "bg-white"
         }`}
       >
-        {pageTitle === "home" ? (
+        {pageTitle.toLowerCase() === "home" ? (
           <></>
         ) : (
           <button
@@ -31,14 +47,18 @@ export default function TopNav({ pageTitle, session }: TopNavProps) {
           >
             <IoArrowBack
               className={`text-2xl ${
-                pageTitle === "Profile" ? "text-white" : ""
+                pageTitle === "Profile" && !solidHeader
+                  ? "text-white"
+                  : "text-onlyfans-black"
               }`}
             />
           </button>
         )}
         <h1
           className={`text-lg ${
-            pageTitle === "Profile" ? "text-white capitalize" : "uppercase"
+            pageTitle === "Profile" && !solidHeader
+              ? "text-white capitalize"
+              : ""
           }`}
         >
           {pageTitle === "Profile" ? session!.user?.name : pageTitle}

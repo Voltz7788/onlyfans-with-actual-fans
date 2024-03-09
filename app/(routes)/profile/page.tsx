@@ -15,13 +15,15 @@ export default async function ProfilePage() {
     redirect("/login");
   }
 
-  const currentUsersPosts = getCurrentUsersPosts(session.user?.email!);
+  const { currentUsersPosts } = await getCurrentUsersPosts(
+    session.user?.email!
+  );
 
   return (
     <main className="border-x w-full xl:w-1/3 min-h-screen">
       <TopNav pageTitle="Profile" session={session} />
-      <ProfileHeader />
-      <ProfilePostsContainer posts={demoPosts} />
+      <ProfileHeader session={session} />
+      <ProfilePostsContainer posts={currentUsersPosts} />
     </main>
   );
 }

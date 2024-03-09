@@ -18,5 +18,5 @@ export async function getCurrentUsersPosts(userEmail: string) {
 
   const formattedPosts = formatPostImages(timedPosts);
 
-  return { posts: formattedPosts };
+  return { currentUsersPosts: formattedPosts };
 }

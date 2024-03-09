@@ -1,5 +1,3 @@
-import React from "react";
-import { auth } from "@/app/utilities/getServerSessionHelper";
 import Image from "next/image";
 import { CustomSession } from "@/@types/types";
 import Link from "next/link";
@@ -8,8 +6,7 @@ import { PiShare } from "react-icons/pi";
 import GrayBar from "../shared/aesthetic/GrayBar";
 import defaultAvatar from "../../../public/defaultAvatar.png";
 
-export default async function ProfileHeader() {
-  const session: CustomSession = await auth();
+export default function ProfileHeader({ session }: { session: CustomSession }) {
   return (
     <section>
       <div className="bg-sky-100 h-44 -mt-16 z-10">
