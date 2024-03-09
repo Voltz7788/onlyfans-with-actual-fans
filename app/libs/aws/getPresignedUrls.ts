@@ -18,7 +18,6 @@ async function generatePresignedGetUrl(image: {
   key: string;
   url: string | null;
 }) {
-  console.log(image);
   if (!image) {
     return null;
   }

@@ -17,9 +17,8 @@ export default function DropzoneUploader() {
     (acceptedFiles: File[]) => {
       dispatch(addFilesToBeUploaded(acceptedFiles));
       setPreviewFiles(URL.createObjectURL(acceptedFiles[0]));
-      console.log(URL.createObjectURL(filesToBeUploaded[0]));
     },
-    [dispatch, filesToBeUploaded]
+    [dispatch]
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
