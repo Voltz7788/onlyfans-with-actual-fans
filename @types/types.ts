@@ -5,7 +5,7 @@ export type CustomSession = {
   user?: CustomUser;
 } | null;
 
-type CustomUser = {
+export type CustomUser = {
   name?: string | null;
   email?: string | null;
   image?: string | null;
