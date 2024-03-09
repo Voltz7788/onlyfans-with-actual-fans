@@ -24,6 +24,10 @@ export default async function Page({
     return notFound();
   }
 
+  if (user.email === session.user?.email) {
+    redirect("/profile");
+  }
+
   const { currentUsersPosts: usersPosts } = await getSingleUsersPosts(
     user.email!
   );
