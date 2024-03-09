@@ -12,7 +12,7 @@ export default async function SettingsPage() {
   }
   return (
     <main className="relative border-x w-full xl:w-1/3 min-h-screen overflow-">
-      <TopNav pageTitle="Settings" />
+      <TopNav pageTitle="SETTINGS" />
       <SettingsHeader />
       <SettingsForm />
     </main>

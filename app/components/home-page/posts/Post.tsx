@@ -54,6 +54,7 @@ export default function Post({
           unoptimized
           alt="User profile picture"
           className="rounded-full w-11"
+          loading="lazy"
         />
         <div className="ml-3">
           <p>{post.User?.name}</p>
