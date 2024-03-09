@@ -1,7 +1,8 @@
 import { generatePresignedGetUrl } from "@/app/libs/aws/getPresignedUrls";
-import type { Post } from "@/@types/types";
+import type { Post as CustomPost } from "@/@types/types";
+import type { Post } from "@prisma/client";
 
-export default function formatPostImages(posts: Post[]) {
+export default function formatPostImages(posts: CustomPost[]) {
   posts.forEach(async (post) => {
     const imageUrls = await generatePresignedGetUrl(post.images![0]);
 
