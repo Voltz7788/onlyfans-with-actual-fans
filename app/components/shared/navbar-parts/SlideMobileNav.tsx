@@ -70,7 +70,7 @@ export default function SlideMobileNav({
 
       {/* Navigation */}
       <div
-        className={`fixed h-screen w-64 bg-white top-0 right-0 z-10 transition-transform duration-200 ${
+        className={`fixed h-screen w-64 bg-white top-0 right-0 z-20 transition-transform duration-200 ${
           isOpen ? "" : "translate-x-96"
         }`}
       >
