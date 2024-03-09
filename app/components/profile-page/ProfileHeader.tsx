@@ -5,8 +5,11 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { PiShare } from "react-icons/pi";
 import GrayBar from "../shared/aesthetic/GrayBar";
 import defaultAvatar from "../../../public/defaultAvatar.png";
+import { auth } from "@/app/utilities/getServerSessionHelper";
 
-export default function ProfileHeader({ user }: { user: CustomUser }) {
+export default async function ProfileHeader({ user }: { user: CustomUser }) {
+  const session: CustomSession = await auth();
+
   return (
     <section>
       <div className="bg-sky-100 h-44 -mt-16 z-10">
@@ -29,15 +32,19 @@ export default function ProfileHeader({ user }: { user: CustomUser }) {
           <p className="text-sm text-onlyfans-light-gray">@{user?.username}</p>
         </div>
         <div className="flex items-start gap-3 ml-auto mt-5">
-          <Link
-            href={"/settings"}
-            className="flex items-center gap-2 p-3.5 xs:px-3 sm:px-4 xs:py-3.5 border rounded-full uppercase text-sm
+          {user.email === session?.user?.email ? (
+            <Link
+              href={"/settings"}
+              className="flex items-center gap-2 p-3.5 xs:px-3 sm:px-4 xs:py-3.5 border rounded-full uppercase text-sm
              text-onlyfans-light-blue font-medium hover:text-onlyfans-blue hover:bg-sky-50
               hover:border-onlyfans-blue transition-colors duration-75"
-          >
-            <IoSettingsOutline className="text-xl" />
-            <p className="hidden xs:block">Edit Profile</p>
-          </Link>
+            >
+              <IoSettingsOutline className="text-xl" />
+              <p className="hidden xs:block">Edit Profile</p>
+            </Link>
+          ) : (
+            <></>
+          )}
           <button
             className="flex justify-center items-center gap-2 p-3.5 border rounded-full uppercase text-sm
              text-onlyfans-light-blue font-medium hover:text-onlyfans-blue hover:bg-sky-50
