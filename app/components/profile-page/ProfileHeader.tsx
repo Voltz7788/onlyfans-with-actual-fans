@@ -1,5 +1,3 @@
-import React from "react";
-import { auth } from "@/app/utilities/getServerSessionHelper";
 import Image from "next/image";
 import { CustomSession } from "@/@types/types";
 import Link from "next/link";
@@ -8,8 +6,7 @@ import { PiShare } from "react-icons/pi";
 import GrayBar from "../shared/aesthetic/GrayBar";
 import defaultAvatar from "../../../public/defaultAvatar.png";
 
-export default async function ProfileHeader() {
-  const session: CustomSession = await auth();
+export default function ProfileHeader({ session }: { session: CustomSession }) {
   return (
     <section>
       <div className="bg-sky-100 h-44 -mt-16 z-10">
@@ -17,7 +14,7 @@ export default async function ProfileHeader() {
       </div>
       <div className="flex px-6 pb-10 border-b">
         <div>
-          <div className="relative">
+          <div className="relative w-fit">
             <Image
               src={session?.user?.image || defaultAvatar}
               alt="Profile picture"
@@ -26,7 +23,7 @@ export default async function ProfileHeader() {
               unoptimized
               className="rounded-full border-2 border-white -mt-14 bg-white"
             />
-            <div className="absolute top-[4.8rem] right-3 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
+            <div className="absolute bottom-1.5 right-2 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
           </div>
 
           <p className="mt-3 font-medium text-lg">{session?.user?.name}</p>

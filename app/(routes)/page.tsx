@@ -19,7 +19,7 @@ export default async function Home() {
 
   return (
     <main className="relative border-x w-full xl:w-1/3 min-h-screen overflow-">
-      <TopNav pageTitle="home" />
+      <TopNav pageTitle="HOME" />
       <Link
         href={"/create-post"}
         className="focus:outline-1 focus:outline-onlyfans-light-blue"
