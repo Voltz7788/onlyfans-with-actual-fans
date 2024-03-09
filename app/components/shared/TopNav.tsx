@@ -17,7 +17,7 @@ export default function TopNav({ pageTitle, session }: TopNavProps) {
 
   return (
     <nav
-      className={`w-full left-0 xl:flex sticky z-20 top-0 transition-colors duration-100 ${
+      className={`w-full left-0 xl:flex sticky z-10 top-0 transition-colors duration-100 ${
         pageTitle === "Profile" && !solidHeader
           ? "bg-transparent"
           : "bg-white border-b"
