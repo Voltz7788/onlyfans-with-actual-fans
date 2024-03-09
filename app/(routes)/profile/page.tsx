@@ -4,6 +4,7 @@ import { auth } from "../../utilities/getServerSessionHelper";
 import { redirect } from "next/navigation";
 import ProfileHeader from "@/app/components/profile-page/ProfileHeader";
 import { getCurrentUsersPosts } from "@/app/utilities/post-utilities/getCurrentUsersPosts";
+import ProfilePostsContainer from "@/app/components/profile-page/ProfilePostsContainer";
 
 const demoPosts: any[] = [];
 
@@ -24,27 +25,3 @@ export default async function ProfilePage() {
     </main>
   );
 }
-
-type PostsTabProps = {
-  postsCount: number;
-};
-
-const PostsTab = ({ postsCount }: PostsTabProps) => {
-  return (
-    <div className="p-3 text-center border-b border-black uppercase">
-      <p className="font-medium">
-        {postsCount < 1
-          ? "No Posts"
-          : `${postsCount} ${postsCount === 1 ? "Post" : "Posts"}`}
-      </p>
-    </div>
-  );
-};
-
-type ProfilePostsContainer = {
-  posts: any[];
-};
-
-const ProfilePostsContainer = ({ posts }: ProfilePostsContainer) => {
-  return <PostsTab postsCount={posts.length} />;
-};
