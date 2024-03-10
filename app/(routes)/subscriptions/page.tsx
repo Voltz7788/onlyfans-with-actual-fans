@@ -14,7 +14,7 @@ export default async function SubscriptionsPage() {
   }
 
   return (
-    <main className="border-x w-full xl:w-1/3">
+    <main className="border-x w-full xl:w-1/3 min-h-screen">
       <TopNav pageTitle="SUBSCRIPTIONS" />
       <SubscriptionList />
     </main>

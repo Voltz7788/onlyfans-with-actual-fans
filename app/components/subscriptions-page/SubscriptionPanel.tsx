@@ -39,7 +39,6 @@ export default function SubscriptionPanel({
               <p className="text-sm text-onlyfans-light-gray">
                 @{sub.username}
               </p>
-              <p>{sub.id.substring(sub.id.length - 3)}</p>
             </div>
           </div>
         </div>
