@@ -6,13 +6,14 @@ import { notFound, redirect } from "next/navigation";
 import { getSingleUsersPosts } from "@/app/utilities/post-utilities/getSingleUsersPosts";
 import verifyUser from "@/app/utilities/data-utilities/verifyUser";
 import ProfileSubscribe from "@/app/components/profile-page/ProfileSubscribe";
+import { CustomSession } from "@/@types/types";
 
 export default async function Page({
   params,
 }: {
   params: { userSlug: string };
 }) {
-  const session = await auth();
+  const session: CustomSession = await auth();
 
   if (!session) {
     redirect("/login");
@@ -36,7 +37,7 @@ export default async function Page({
     <main className="border-x w-full xl:w-1/3 min-h-screen">
       <TopNav pageTitle="Profile" user={user} />
       <ProfileHeader user={user} />
-      <ProfileSubscribe />
+      <ProfileSubscribe currentUsername={session.user?.username!} />
       <ProfilePostsContainer posts={usersPosts} />
     </main>
   );
