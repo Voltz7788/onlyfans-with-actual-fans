@@ -7,15 +7,15 @@ export async function POST(request: NextRequest) {
   const currentUsername = data.get("currentUsername") as string;
   const subscribeeUsername = data.get("subscribeeUsername") as string;
 
-  const currentUser = await prisma.user.findUnique({
+  await prisma.user.update({
     where: { username: currentUsername },
+    data: { following: { connect: { username: subscribeeUsername } } },
   });
 
-  const subscribee = await prisma.user.findUnique({
-    where: { username: subscribeeUsername },
-  });
+  // await prisma.user.update({
+  //   where: { username: subscribeeUsername },
+  //   data: { followedBy: { connect: { username: currentUsername } } },
+  // });
 
-  const follow = await prisma.follows.create({
-    data: { followedBy: currentUser?.id },
-  });
+  return new NextResponse();
 }

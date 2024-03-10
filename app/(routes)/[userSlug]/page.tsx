@@ -7,6 +7,7 @@ import { getSingleUsersPosts } from "@/app/utilities/post-utilities/getSingleUse
 import verifyUser from "@/app/utilities/data-utilities/verifyUser";
 import ProfileSubscribe from "@/app/components/profile-page/ProfileSubscribe";
 import { CustomSession } from "@/@types/types";
+import checkIfSubscribed from "@/app/utilities/data-utilities/checkIfSubscribed";
 
 export default async function Page({
   params,
@@ -33,11 +34,19 @@ export default async function Page({
     user.email!
   );
 
+  const isSubscribedDB = await checkIfSubscribed({
+    currentUserEmail: session.user?.email!,
+    followedUserEmail: user.email!,
+  });
+
   return (
     <main className="border-x w-full xl:w-1/3 min-h-screen">
       <TopNav pageTitle="Profile" user={user} />
       <ProfileHeader user={user} />
-      <ProfileSubscribe currentUsername={session.user?.username!} />
+      <ProfileSubscribe
+        currentUsername={session.user?.username!}
+        isSubscribedDB={isSubscribedDB}
+      />
       <ProfilePostsContainer posts={usersPosts} />
     </main>
   );

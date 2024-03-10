@@ -41,8 +41,8 @@ model User {
   password      String?
   accounts      Account[]
   posts         Post[]
-  followedBy    Follows[] @relation("followedBy")
-  following     Follows[] @relation("following")
+  followedBy    User[]    @relation("UserFollows")
+  following     User[]    @relation("UserFollows")
 }
 
 model Image {
@@ -51,15 +51,6 @@ model Image {
   url    String?
   Post   Post?   @relation(fields: [postId], references: [id])
   postId String?
-}
-
-model Follows {
-  followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
-  followedById String
-  following    User   @relation("following", fields: [followingId], references: [id])
-  followingId  String
-
-  @@id([followingId, followedById])
 }
 
 model Post {

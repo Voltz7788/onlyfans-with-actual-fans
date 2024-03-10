@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-export default function useSubscribe(currentUsername: string) {
-  const [subscribed, setSubscribed] = useState(false);
+export default function useSubscribe(
+  currentUsername: string,
+  isSubscribedDB: boolean
+) {
+  const [subscribed, setSubscribed] = useState(isSubscribedDB);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const params = useParams<{ userSlug: string }>();
 
-  const handleSubscribe = async () => {
+  const handleSubscription = async () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("currentUsername", currentUsername);
     formData.append("subscribeeUsername", params.userSlug);
 
     try {
-      const res = await fetch("/subscribe", {
+      const res = await fetch("/api/subscribe", {
+        method: "post",
         body: formData,
       });
 
@@ -25,7 +29,9 @@ export default function useSubscribe(currentUsername: string) {
     } catch (err) {
       console.error(err);
     }
+
+    router.refresh();
   };
 
-  return { subscribed, loading, handleSubscribe };
+  return { subscribed, loading, handleSubscription };
 }

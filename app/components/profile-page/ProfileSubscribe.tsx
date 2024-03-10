@@ -5,18 +5,22 @@ import useSubscribe from "@/app/utilities/(hooks)/data-hooks/useSubscribe";
 
 export default function ProfileSubscribe({
   currentUsername,
+  isSubscribedDB,
 }: {
+  isSubscribedDB: boolean;
   currentUsername: string;
 }) {
-  const { loading, subscribed, handleSubscribe } =
-    useSubscribe(currentUsername);
+  const { loading, subscribed, handleSubscription } = useSubscribe(
+    currentUsername,
+    isSubscribedDB
+  );
 
   return (
     <section className="">
       <div className="p-3">
         <p className="uppercase font-semibold text-gray-400">Subscription</p>
         <button
-          onClick={() => handleSubscribe()}
+          onClick={handleSubscription}
           disabled={loading ? true : false}
           className={`px-6 uppercase font-semibold 
           w-full h-12 rounded-full mt-3 mb-2 text-sm transition-colors duration-250 
