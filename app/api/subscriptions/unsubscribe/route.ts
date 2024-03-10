@@ -9,13 +9,8 @@ export async function POST(request: NextRequest) {
 
   await prisma.user.update({
     where: { username: currentUsername },
-    data: { following: { connect: { username: subscribeeUsername } } },
+    data: { following: { disconnect: { username: subscribeeUsername } } },
   });
 
-  // await prisma.user.update({
-  //   where: { username: subscribeeUsername },
-  //   data: { followedBy: { connect: { username: currentUsername } } },
-  // });
-
-  return new NextResponse();
+  return NextResponse.json({ sub: false });
 }

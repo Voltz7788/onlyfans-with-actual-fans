@@ -10,20 +10,21 @@ export default function useSubscribe(
   const router = useRouter();
   const params = useParams<{ userSlug: string }>();
 
-  const handleSubscription = async () => {
+  const handleSubscription = async (action: "subscribe" | "unsubscribe") => {
     setLoading(true);
     const formData = new FormData();
     formData.append("currentUsername", currentUsername);
     formData.append("subscribeeUsername", params.userSlug);
 
     try {
-      const res = await fetch("/api/subscribe", {
+      const res = await fetch(`/api/subscriptions/${action}`, {
         method: "post",
         body: formData,
       });
 
       if (res.ok) {
-        setSubscribed(true);
+        const data: { sub: boolean } = await res.json();
+        setSubscribed(data.sub);
         setLoading(false);
       }
     } catch (err) {
