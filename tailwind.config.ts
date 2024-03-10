@@ -19,6 +19,7 @@ const config: Config = {
         "onlyfans-light-gray": "#8A96A3",
         "onlyfans-blue": "#0091ea",
         "onlyfans-light-blue": "#00aff0",
+        "off-white": "#f6f7f8",
       },
     },
     screens: {

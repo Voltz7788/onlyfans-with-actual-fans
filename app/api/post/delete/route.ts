@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
   await prisma.post.delete({ where: { id: postId } });
 
   if (key) {
-    console.log(key);
     deleteObjectFromBucket(key as string);
   }
 
