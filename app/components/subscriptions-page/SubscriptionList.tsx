@@ -10,15 +10,19 @@ export default async function SubscriptionList() {
     email: session?.user?.email!,
   });
 
-  console.log(
-    allSubscriptions.map((sub) => sub.id.substring(sub.id.length - 3))
-  );
-
   return (
     <section className="flex flex-col gap-4 p-4">
-      {allSubscriptions.map((sub) => (
-        <SubscriptionPanel key={sub.id} sub={sub} session={session} />
-      ))}
+      {allSubscriptions.length === 0 ? (
+        <div className="text-center mt-10">
+          <p className="text-gray-600 text-lg">
+            You don&apos;t have any subscriptions
+          </p>
+        </div>
+      ) : (
+        allSubscriptions.map((sub) => (
+          <SubscriptionPanel key={sub.id} sub={sub} session={session} />
+        ))
+      )}
     </section>
   );
 }
