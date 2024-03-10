@@ -112,7 +112,7 @@ export default function DesktopNav({
             <Link
               href={`${pathname === "/create-post" ? "" : "/create-post"}`}
               className={`relative flex font-medium justify-center items-center gap-5 text-sm max-w-[250px] lg:w-full rounded-full p-2 lg:py-3.5 lg:px-3 mt-4 
-    text-white transition-colors duration-100 bg-onlyfans-light-blue hover:bg-onlyfans-blue focus:bg-onlyfans-blue focus:outline-1 `}
+                        text-white transition-colors duration-100 bg-onlyfans-light-blue hover:bg-onlyfans-blue focus:bg-onlyfans-blue focus:outline-1`}
               aria-label="New Post"
             >
               <FiPlus className="lg:absolute left-3" />

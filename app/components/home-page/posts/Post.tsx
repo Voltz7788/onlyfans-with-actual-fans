@@ -57,7 +57,10 @@ export default function Post({
           className="rounded-full w-11"
           loading="lazy"
         />
-        <Link href={`/${post.User?.username}`} className="ml-3">
+        <Link
+          href={`/${postedByCurrentUser ? "profile" : post.User?.username}`}
+          className="ml-3"
+        >
           <p>{post.User?.name}</p>
           <p className="text-sm text-onlyfans-light-gray">
             {`@${post.User?.username}`}
